@@ -25,7 +25,7 @@
         public function listarProdutos(){
         //Sintaxe                  Selecionar Tudo Da Tabela  
             $query = $this->pdo->query("SELECT * FROM produtos");
-        //                PegarTudoQueVeio em formato de objeto (PDO::FETCH_ASSOC) também pode ser usado, retornando tudo em forma de"dicionário"  
+        //                 PegarTudoQueVeio em formato de objeto. PDO::FETCH_ASSOC também pode ser usado, retornando tudo em forma de"dicionário"  
             $produtos = $query->fetchAll(PDO::FETCH_OBJ);
             return $produtos;
         }
