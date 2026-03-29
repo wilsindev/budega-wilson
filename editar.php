@@ -27,16 +27,19 @@
 <body class="text-black w-screen h-screen">
     <main class="flex flex-col justify-center items-center w-screen h-screen">
     <h2 class="text-xl font-bold mb-4">Edição de Produto</h2>
-    <div class="bg-[#5489ee] shadow-lg rounded-2xl p-6 w-[700px] gap-10">
-        <form action="" method="post" class="flex flex-col justify-center items-center gap-4">
-                <label for="nome">Nome: </label>
-                <input type="text" id="nome" name="nome" value="<?php echo $produto->nome?>" required class="bg-white text-black rounded-md p-2">
-                <label for="categoria">Categoria: </label>
-                <input type="text" id="categoria" name="categoria" value="<?php echo $produto->categoria?>" required class="bg-white text-black rounded-md p-2">
-                <label for="preco">Preço: </label>
-                <input type="number" id="preco" name="preco" step="0.01" value="<?php echo $produto->preco ?>" required class="bg-white text-black rounded-md p-2">
-                <input type="submit" value="Editar" class="bg-white rounded-md p-2">
+    <div class="bg-[#5489ee] shadow-lg rounded-2xl p-6 w-[1000px] ">
+        <form action="" method="post" class="flex  justify-center items-center gap-4">
+                <label for="nome" class="text-white">Nome: </label>
+                <input type="text" id="nome" name="nome" value="<?php echo $produto->nome?>" required class="bg-white  rounded-md p-2">
+                <label for="categoria" class="text-white">Categoria: </label>
+                <input type="text" id="categoria" name="categoria" value="<?php echo $produto->categoria?>" required class="bg-white  rounded-md p-2">
+                <label for="preco" class="text-white">Preço: </label>
+                <input type="number" id="preco" name="preco" step="0.01" value="<?php echo $produto->preco ?>" required class="bg-white rounded-md p-2">
+                <input type="submit" value="Editar" class="bg-green-500 cursor-pointer text-white rounded-md p-2 hover:scale-110 transition duration-300">
             </form>
+            <div class="w-20 h-10   bg-red-600 text-white p-2 flex justify-center items-center rounded-lg ml-10 mt-20 hover:scale-110 transition duration-300">
+                <a href="produtos.php">Cancelar</a>
+            </div>
     </div>
     </main>
 </body>

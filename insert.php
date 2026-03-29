@@ -7,6 +7,8 @@
             $produtoCategoria = $_POST['categoria'];
             $produtoPreco = $_POST['preco'];
             $query->adicionarProduto($produtoNome, $produtoPreco, $produtoCategoria);
+            header("Location: produtos.php");
+            exit;
         }
     ?>
 <!DOCTYPE html>
@@ -20,16 +22,19 @@
 <body class="text-black w-screen h-screen">
     <main class="flex flex-col justify-center items-center w-screen h-screen">
         <h1 class="text-black text-4xl mb-4">Cadastro produtos</h1>
-        <div class="flex w-200 justify-center p-4 bg-[#c3e9f3] rounded-md">
-            <form action="" method="post" class="flex flex-col justify-center items-center gap-4">
-                <label for="nome">Nome: </label>
+        <div class="bg-[#5489ee] shadow-lg rounded-2xl p-6 w-[1000px]">
+            <form action="" method="post" class="flex  justify-center items-center gap-4">
+                <label for="nome" class="text-white">Nome: </label>
                 <input type="text" id="nome" name="nome" required class="bg-white text-black rounded-md p-2">
-                <label for="categoria">Categoria: </label>
+                <label for="categoria" class="text-white">Categoria: </label>
                 <input type="text" id="categoria" name="categoria" required class="bg-white text-black rounded-md p-2">
-                <label for="preco">Preço: </label>
+                <label for="preco" class="text-white">Preço: </label>
                 <input type="number" id="preco" name="preco" step="0.01" required class="bg-white text-black rounded-md p-2">
                 <input type="submit" value="Cadastrar" class="bg-white rounded-md p-2">
             </form>
+            <div class="w-20 h-10  bg-white flex justify-center items-center rounded-lg ml-10 mt-20">
+                <a href="produtos.php">Voltar</a>
+            </div>
         </div>
     </main>
 </body>
