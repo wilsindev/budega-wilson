@@ -9,6 +9,8 @@
         }
         // Create
         // Adiciona um produto qualquer no DB. 
+        // faltar colocar quantidade. 
+        // fazer sistema de paginação com filtro
         public function adicionarProduto($produtoName, $produtoPreco, $produtoCategoria){
         //                                Inserir Na   Tabela     Colunas da tabela   Valores  Aqui são os placeholders que vão ser substituidos.
             $query = $this->pdo->prepare("INSERT INTO produtos (nome, preco, categoria) VALUES (:nome, :preco, :categoria)");
@@ -19,12 +21,18 @@
         // Executa sua query.  
             $query->execute();
         }
+
+
         // Read
          
         //  Lista TODOS os produtos no DB
-        public function listarProdutos(){
-        //Sintaxe                  Selecionar Tudo Da Tabela  
-            $query = $this->pdo->query("SELECT * FROM produtos");
+        public function listarProdutos($limite, $offset){
+        //Sintaxe                  Selecionar Tudo Da Tabela  Com Limite x Pulando de x em x a cada execute.
+        // OFFSET pula de x em x em busca de não repetir os anteriores.
+            $query = $this->pdo->prepare("SELECT * FROM produtos LIMIT :limit OFFSET :offset");
+            $query->bindValue(':limit', (int) $limite, PDO::PARAM_INT);
+            $query->bindValue(':offset', (int) $offset, PDO::PARAM_INT);
+            $query->execute();
         //                 PegarTudoQueVeio em formato de objeto. PDO::FETCH_ASSOC também pode ser usado, retornando tudo em forma de"dicionário"  
             $produtos = $query->fetchAll(PDO::FETCH_OBJ);
             return $produtos;
@@ -48,6 +56,15 @@
             $query->execute();
             $produtosFiltrados = $query->fetchAll(PDO::FETCH_OBJ);
             return $produtosFiltrados;
+        }
+
+        public function searchProdutosNome($nome){
+            $nomePesquisar = "%" . $nome . "%";
+            $query = $this->pdo->prepare("SELECT * FROM produtos WHERE nome LIKE :nome");
+            $query->bindValue(":nome", $nomePesquisar);
+            $query->execute();
+            $produtos = $query->fetchAll(PDO::FETCH_OBJ);
+            return $produtos;
         }
 
         // Pega as categorias que estão no DB. O DISTINCT serve para não pegar duplicatas. Esse código aqui é usada nas options do select lá em filtrar.

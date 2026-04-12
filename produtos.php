@@ -1,6 +1,12 @@
 <?php 
     require_once "query.class.php";
     require_once "conexao.php";
+    // Define a pagina atual, se nao tiver na url, é 1
+    $page = $_GET['pagina'] ?? 1;
+    // limite de produtos por pagina
+    $limitPerPage = 5;
+    // quantos registros o banco deve pular pra trazer os dados (evita que pegue os mesmos)
+    $offset = ($page - 1) * $limitPerPage;
     $query = new Query($pdo);
 ?>
 <!DOCTYPE html>
@@ -35,6 +41,10 @@
                 </select>
                 <button type="submit" class="bg-white text-black rounded-md p-4"><i class="fa-solid fa-arrows-rotate"></i></button>
         </form>
+        <form action="" method="post">
+                <input type="text" name="pesquisa" class="bg-white text-black rounded-md p-4" placeholder="Pesquisar por nome">
+                <button type="submit" class="bg-white text-black rounded-md p-4"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
         <table class="w-full">
         <thead>
             <tr class="bg-white text-left">
@@ -46,6 +56,21 @@
             </tr>
         </thead>
         <tbody>
+            <?php 
+                if(empty($_POST['filtrar']) && !empty($_POST['pesquisa'])){
+                    $pesquisa = $_POST['pesquisa'];
+                    $produtosAchados = $query->searchProdutosNome($pesquisa);
+                    foreach($produtosAchados as $produtoAchado){     
+                    ?>
+            <tr class="border-b bg-white hover:bg-gray-100">
+            <td class="p-3"><?php echo $produtoAchado->id?></td>
+            <td class="p-3"><?php echo $produtoAchado->nome?></td>
+            <td class="p-3">R$ <?php echo $produtoAchado->preco?></td>
+            <td class="p-3"><?php echo $produtoAchado->categoria?></td>
+            <td class="p-3 flex align-center justify-center gap-2"><a href="excluir.php?id=<?php echo $produtoAchado->id ?>" class=" bg-red-600 text-white p-2 rounded-md">Excluir</a><a href="editar.php?id=<?php echo $produtoAchado->id ?>" class=" bg-yellow-500 text-white p-2 rounded-md ">Editar</a></td>
+            </tr>
+            <?php }}?>
+
             <?php 
                 if(!empty($_POST['filtrar'])){
                     $filtro = $_POST['filtrar'];
@@ -62,8 +87,8 @@
             <?php }}?>
 
             <?php 
-                if(!isset($_POST['filtrar'])){
-                    $produtos = $query->listarProdutos();
+                if(empty($_POST['filtrar']) && empty($_POST['pesquisa'])){
+                    $produtos = $query->listarProdutos($limitPerPage, $offset);
                     foreach($produtos as $produto){
 
             ?>
@@ -77,6 +102,13 @@
             <?php }}?>
         </tbody>
         </table>
+        
+        <div class="flex justify-center gap-2">
+            <?php if ($page - 1 > 0): ?>
+            <a href="produtos.php?pagina=<?php echo $page - 1 ?>" class="flex justify-center items-center w-10 h-10 bg-white rounded-md"><</a>
+            <?php endif; ?>
+            <a href="produtos.php?pagina=<?php echo $page + 1 ?>" class="flex justify-center items-center w-10 h-10 bg-white rounded-md">></a>
+        </div>
     </div>
     </main>
 </body>
