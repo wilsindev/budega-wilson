@@ -1,8 +1,8 @@
 <?php  
     // DB = DataBase
     // Placeholders = são "espaços em branco", que vão ser preenchidos pelas variaveis em si durante o bindValue ou bindParam.
-    require_once "conexao.php";
-    class Query{
+    require_once __DIR__ .  "/../config/conexao.php";
+    class ProdutoQuery{
         private $pdo;
         public function __construct($pdo) {
             $this->pdo = $pdo;
@@ -60,7 +60,7 @@
 
         public function searchProdutosNome($nome){
             $nomePesquisar = "%" . $nome . "%";
-            $query = $this->pdo->prepare("SELECT * FROM produtos WHERE nome LIKE :nome");
+            $query = $this->pdo->prepare("SELECT DISTINCT * FROM produtos WHERE nome LIKE :nome");
             $query->bindValue(":nome", $nomePesquisar);
             $query->execute();
             $produtos = $query->fetchAll(PDO::FETCH_OBJ);
@@ -96,13 +96,16 @@
             $query->execute();
         }
 
-        // Compras
+        // Funcionarios
+
+
         // Ainda estou trabalhando nessa parte.
-        public function adicionarVenda($produtoLista, $produtoTotal, $produtoVendedor){
-            $query = $this->pdo->prepare("INSERT INTO produtos (produtos, total, vendedor) VALUES (:produtos, :total, :vendedor)");
-            $query->bindValue(":produtos", $produtoLista);
-            $query->bindValue(":total", $produtoTotal);
-            $query->bindValue(":vendedor", $produtoVendedor);
+        public function cadastrarFuncionario($nomeFuncionario, $emailFuncionario, $senhaFuncionario){
+            $query = $this->pdo->prepare("INSERT INTO funcionarios (nome, email, senha) VALUES (:nome, :email, :senha)");
+            $senha_hashada = password_hash($senhaFuncionario, PASSWORD_DEFAULT);
+            $query->bindValue(":nome", $nomeFuncionario);
+            $query->bindValue(":email", $emailFuncionario);
+            $query->bindValue(":senha", $senha_hashada);
             $query->execute();
 
         }
