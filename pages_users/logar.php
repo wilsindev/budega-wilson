@@ -36,6 +36,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
     <title>Loja do Wilson — Login</title>
     <style>
         * { font-family: 'Geist', system-ui, sans-serif; }
@@ -83,7 +84,7 @@
             <div class="w-15 h-15 rounded-lgflex items-center justify-center shrink-0">
                 <img src="../assets/logobudega.png" alt="Logo da loja do Wilson">
             </div>
-            <span class="font-semibold text-slate-800 text-[15px] tracking-tight">Bem-vindo de volta à Loja do Wilson</span>
+            <span class="font-semibold text-slate-800 text-[15px] tracking-tight">Bem-vindo à Loja do Wilson</span>
         </div>
 
         <div class="divider"></div>
@@ -122,13 +123,6 @@
             </button>
 
         </form>
-
-        <div class="divider"></div>
-
-        <a href="cadastro.php" class="text-[13px] text-slate-400 hover:text-indigo-500 transition-colors text-center">
-            Não tem uma conta? <span class="text-indigo-500 font-medium">Cadastrar</span>
-        </a>
-
     </div>
 </body>
 </html>

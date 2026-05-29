@@ -1,7 +1,7 @@
 <?php 
-    session_start();
+    require_once __DIR__ . '/../includes/auth_check.php';
     $erro = '';
-     if(isset($_SESSION['user_id'])){
+     if(isset($_SESSION['user_id']) && $_SESSION['is_admin'] == 0){
         header("Location: ../pages_produtos/produtos.php");
         exit;
     }
@@ -14,7 +14,7 @@
                 $erro = "A senha deve conter no mínimo 8 caracteres.";
             } else {
                 $query = new UserQuery($pdo);
-                $salvo = $query->salvarUser($_POST['nome'], $_POST['email'], $_POST['senha']);
+                $salvo = $query->salvarUser($_POST['nome'], $_POST['email'], $_POST['senha'], $_POST['is_admin']);
                 if($salvo){
                     header("Location: logar.php");
                     exit;
@@ -35,6 +35,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
     <title>Loja do Wilson — Cadastro</title>
     <style>
         * { font-family: 'Geist', system-ui, sans-serif; }
@@ -111,13 +112,18 @@
 
             <div class="flex flex-col gap-1.5">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" class="field" placeholder="seu@email.com" required autocomplete="email">
+                <input type="email" id="email" name="email" class="field" placeholder="example@email.com" required autocomplete="email">
             </div>
 
             <div class="flex flex-col gap-1.5">
                 <label for="senha">Senha</label>
                 <input type="password" id="senha" name="senha" class="field" placeholder="Mínimo 8 caracteres" required autocomplete="new-password">
             </div>
+
+            <select name="is_admin" id="is_admin" class="field">
+                <option value="0">Funcionário</option>
+                <option value="1">Administrador</option>
+            </select>
 
             <button type="submit"
                     class="btn-primary text-white font-medium text-[13px] rounded-lg px-4 py-2.5 mt-1">
@@ -128,8 +134,8 @@
 
         <div class="divider"></div>
 
-        <a href="logar.php" class="text-[13px] text-slate-400 hover:text-indigo-500 transition-colors text-center">
-            Já tem uma conta? <span class="text-indigo-500 font-medium">Entrar</span>
+        <a href="produtos.php" class="text-[13px] text-slate-400 hover:text-indigo-500 transition-colors text-center">
+            Voltar para <span class="text-indigo-500 font-medium">produtos</span>
         </a>
 
     </div>

@@ -16,7 +16,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <title>Budega do Wilson</title>
+    <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="../js/select.js" defer></script>
+    <title>Loja do Wilson - Produtos</title>
     <style>
         * { font-family: 'Geist', system-ui, sans-serif; }
         code, .mono { font-family: 'Geist Mono', monospace; }
@@ -153,14 +158,6 @@
             border-bottom: 1px solid #e8ecf0;
         }
 
-        /* Logo dot */
-        .logo-dot {
-            width: 8px; height: 8px;
-            background: #4f46e5;
-            border-radius: 50%;
-            box-shadow: 0 0 0 3px #e0e7ff;
-        }
-
         /* Fade-in on load */
         .card-glow { animation: fadein 0.3s ease; }
         @keyframes fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
@@ -177,6 +174,31 @@
 
         /* Subtitle text */
         .subtitle { color: #94a3b8; }
+        .select2-container .select2-selection--single {
+            height: 40px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 4px 8px;
+        }
+
+        /* Texto selecionado */
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            color: #060606;
+            font-size: 14px;
+            line-height: 32px;
+        }
+
+        /* Dropdown */
+        .select2-dropdown {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* Opção com hover */
+        .select2-results__option--highlighted {
+            background-color: #818cf8 !important;
+        }
     </style>
 </head>
 <body class="bg-[#f4f6f9] text-slate-700 w-full min-h-screen">
@@ -201,15 +223,15 @@
             <div class="divider"></div>
 
             <!-- Controles -->
-            <div class="flex flex-wrap gap-2.5">
-                <form action="" method="post" class="flex gap-2 items-center">
+            <div class="flex justify-between flex-wrap gap-2.5">
+                <form action="" method="get" class="flex gap-2 items-center">
                     <select name="filtrar" id="filtrar"
-                            class="field bg-white border border-slate-200 text-slate-600 text-[13px] rounded-lg px-3 py-2 cursor-pointer">
-                        <option value="" selected disabled>Filtrar categoria</option>
+                            class="field select bg-white border border-slate-200 text-slate-600 text-[13px] rounded-lg px-9 py-2 cursor-pointer">
+                        <option value="" selected>Filtrar categoria</option>
                         <?php 
                             $categorias = $query->listarCategorias();
                             foreach($categorias as $categoria){ ?>
-                        <option value="<?php echo $categoria->categoria ?>"><?= $categoria->categoria ?></option>
+                        <option value="<?php echo $categoria->id ?>"><?= $categoria->nome ?></option>
                         <?php } ?>
                     </select>
                     <button type="submit" class="btn-secondary flex items-center justify-center w-9 h-9 rounded-lg cursor-pointer">
@@ -235,7 +257,6 @@
                 <table class="w-full border-collapse">
                     <thead>
                         <tr>
-                            <th class="px-4 py-3 text-left w-20 text-[#060606]">ID</th>
                             <th class="px-4 py-3 text-left text-[#060606]">Nome</th>
                             <th class="px-4 py-3 text-left w-28 text-[#060606]">Preço</th>
                             <th class="px-4 py-3 text-left w-32 text-[#060606]">Categoria</th>
@@ -244,16 +265,11 @@
                     </thead>
                     <tbody>
 
-                        <?php if(empty($_POST['filtrar']) && !empty($_GET['q'])):
+                        <?php if(empty($_GET['filtrar']) && !empty($_GET['q'])):
                             $pesquisa = $_GET['q'];
                             $produtosAchados = $query->searchProdutosNome($pesquisa);
                             foreach($produtosAchados as $produtoAchado): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5">
-                                <span class="badge-id mono rounded-md px-2 py-0.5 text-[11px]">
-                                    #<?php echo $produtoAchado->id ?>
-                                </span>
-                            </td>
                             <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $produtoAchado->nome ?></td>
                             <td class="px-4 py-3.5 text-[13px] price-val font-medium mono"><?php echo number_format($produtoAchado->preco, 2, ',', '.') ?></td>
                             <td class="px-4 py-3.5">
@@ -281,11 +297,6 @@
                             $produtosFiltrados = $query->filtrarProdutosCategoria($filtro);
                             foreach($produtosFiltrados as $produtoFiltrado): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5">
-                                <span class="badge-id mono rounded-md px-2 py-0.5 text-[11px]">
-                                    #<?php echo $produtoFiltrado->id ?>
-                                </span>
-                            </td>
                             <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $produtoFiltrado->nome ?></td>
                             <td class="px-4 py-3.5 text-[13px] price-val font-medium mono"><?php echo number_format($produtoFiltrado->preco, 2, ',', '.') ?></td>
                             <td class="px-4 py-3.5">
@@ -312,11 +323,6 @@
                             $produtos = $query->listarProdutos($limitPerPage, $offset);
                             foreach($produtos as $produto): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5">
-                                <span class="badge-id mono rounded-md px-2 py-0.5 text-[11px] text-[#060606]">
-                                    #<?php echo $produto->id ?>
-                                </span>
-                            </td>
                             <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal"><?php echo $produto->nome ?></td>
                             <td class="px-4 py-3.5 text-[13px] text-[#060606] price-val font-medium mono"><?php echo number_format($produto->preco, 2, ',', '.') ?></td>
                             <td class="px-4 py-3.5">

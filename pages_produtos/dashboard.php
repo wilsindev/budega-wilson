@@ -1,15 +1,17 @@
 <?php
 require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ . '/../includes/produtoquery.class.php';
-require_once __DIR__ . '/../includes/userquery.class.php';
+require_once __DIR__ . '/../includes/clientequery.class.php';
+require_once __DIR__ . '/../includes/categoriaquery.class.php';
 require_once __DIR__ . '/../config/conexao.php';
 
 $queryProduto = new ProdutoQuery($pdo);
-$queryUser = new UserQuery($pdo);
+$queryCliente = new ClienteQuery($pdo);
+$queryCategoria = new CategoriaQuery($pdo);
 
-// $totalProdutos = $queryProduto->contarProdutos();
-// $totalCategorias = $queryProduto->contarCategorias();
-// $totalUsuarios = $queryUser->contarUsuarios();
+$totalProdutos = $queryProduto->contarProdutos();
+$totalCategorias = $queryCategoria->contarCategorias();
+$totalClientes = $queryCliente->contarClientes();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -19,7 +21,8 @@ $queryUser = new UserQuery($pdo);
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <title>Budega do Wilson — Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
+    <title>Loja do Wilson — Dashboard</title>
     <style>
         * { font-family: 'Geist', system-ui, sans-serif; }
         body { background-color: #f4f6f9; }
@@ -65,7 +68,7 @@ $queryUser = new UserQuery($pdo);
                     </div>
                     <div>
                         <span class="text-[32px] font-semibold text-slate-800 leading-none">
-                            1
+                            <?php echo htmlspecialchars($totalProdutos); ?>
                         </span>
                         <p class="text-[12px] text-slate-400 mt-1">cadastrados no sistema</p>
                     </div>
@@ -85,38 +88,69 @@ $queryUser = new UserQuery($pdo);
                     </div>
                     <div>
                         <span class="text-[32px] font-semibold text-slate-800 leading-none">
-                            2
+                            <?php echo htmlspecialchars($totalCategorias); ?>
                         </span>
                         <p class="text-[12px] text-slate-400 mt-1">categorias distintas</p>
                     </div>
                     <div class="divider"></div>
-                    <a href="../pages_categorias/" class="text-[12px] text-emerald-500 hover:text-emerald-700 transition-colors flex items-center gap-1">
+                    <a href="../pages_categorias/categorias.php" class="text-[12px] text-emerald-500 hover:text-emerald-700 transition-colors flex items-center gap-1">
                         Ver categorias <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
                 </div>
 
-                <!-- Usuários -->
+                <!-- Clientes -->
                 <div class="card rounded-2xl p-6 flex flex-col gap-4">
                     <div class="flex items-center justify-between">
-                        <span class="text-[12px] font-semibold text-slate-400 uppercase tracking-widest">Usuários</span>
+                        <span class="text-[12px] font-semibold text-slate-400 uppercase tracking-widest">Clientes</span>
                         <div class="stat-icon bg-violet-50">
                             <i class="fa-solid fa-users text-violet-500 text-[14px]"></i>
                         </div>
                     </div>
                     <div>
                         <span class="text-[32px] font-semibold text-slate-800 leading-none">
-                            3
+                            <?php echo htmlspecialchars($totalClientes); ?>
                         </span>
-                        <p class="text-[12px] text-slate-400 mt-1">usuários cadastrados</p>
+                        <p class="text-[12px] text-slate-400 mt-1">clientes cadastrados</p>
                     </div>
                     <div class="divider"></div>
-                    <a href="../pages_users/" class="text-[12px] text-violet-500 hover:text-violet-700 transition-colors flex items-center gap-1">
-                        Ver usuários <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    <a href="../pages_clientes/clientes.php" class="text-[12px] text-violet-500 hover:text-violet-700 transition-colors flex items-center gap-1">
+                        Ver clientes <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
                 </div>
 
             </div>
-
+            <div class="flex  justify-around gap-2">
+                <a href="insert.php" class="group relative h-20 w-40 bg-white border border-slate-200 hover:border-indigo-400 rounded-2xl overflow-hidden flex flex-row transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                    <div class="absolute top-0 left-0 right-0 h-[2px] bg-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-1/2 flex-shrink-0 flex items-center justify-center bg-indigo-50">
+                        <i class="fa-solid fa-plus text-indigo-500 text-[13px]"></i>
+                    </div>
+                    <div class="w-1/2 flex flex-col justify-center px-3">
+                        <span class="text-[9px] text-slate-400 tracking-[0.15em] uppercase">Novo</span>
+                        <span class="text-[12px] text-slate-700 font-medium">Produto</span>
+                    </div>
+                </a>
+                <a href="../pages_categorias/create.php" class="group relative h-20 w-40 bg-white border border-slate-200 hover:border-emerald-400 rounded-2xl overflow-hidden flex flex-row transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                    <div class="absolute top-0 left-0 right-0 h-[2px] bg-emerald-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-1/2 flex-shrink-0 flex items-center justify-center bg-emerald-50">
+                        <i class="fa-solid fa-plus text-emerald-500 text-[13px]"></i>
+                    </div>
+                    <div class="w-1/2 flex flex-col justify-center px-3">
+                        <span class="text-[9px] text-slate-400 tracking-[0.15em] uppercase">Nova</span>
+                        <span class="text-[12px] text-slate-700 font-medium">Categoria</span>
+                    </div>
+                </a>
+                <a href="../pages_clientes/clientes.php" class="group relative h-20 w-40 bg-white border border-slate-200 hover:border-violet-400 rounded-2xl overflow-hidden flex flex-row transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                    <div class="absolute top-0 left-0 right-0 h-[2px] bg-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-1/2 flex-shrink-0 flex items-center justify-center bg-violet-50">
+                        <i class="fa-solid fa-plus text-violet-500 text-[13px]"></i>
+                    </div>
+                    <div class="w-1/2 flex flex-col justify-center px-3">
+                        <span class="text-[9px] text-slate-400 tracking-[0.15em] uppercase">Novo</span>
+                        <span class="text-[12px] text-slate-700 font-medium">Cliente</span>
+                    </div>
+                </a>
+            </div>
         </div>
     </main>
 </body>

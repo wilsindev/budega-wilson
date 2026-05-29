@@ -16,7 +16,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <title>Loja do Wilson</title>
+    <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
+    <title>Loja do Wilson - Categorias</title>
     <style>
         * { font-family: 'Geist', system-ui, sans-serif; }
         code, .mono { font-family: 'Geist Mono', monospace; }
@@ -192,7 +193,6 @@
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="flex flex-col items-center w-full min-h-screen py-14 px-4">
         <div class="card-glow rounded-2xl p-8 w-full max-w-[800px] flex flex-col gap-7">
-
             <!-- Header -->
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
@@ -229,7 +229,6 @@
                 <table class="w-full border-collapse">
                     <thead>
                         <tr>
-                            <th class="px-4 py-3 text-left w-20 text-[#060606]">ID</th>
                             <th class="px-4 py-3 text-left text-[#060606]">Nome</th>
                             <th class="px-4 py-3 text-center w-28 text-[#060606]">Ação</th>
                         </tr>
@@ -241,11 +240,6 @@
                             $categoriasAchadas = $query->buscarCategoriaPorNome($nome);
                             foreach($categoriasAchadas as $categoriaAchada): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5">
-                                <span class="badge-id mono rounded-md px-2 py-0.5 text-[11px]">
-                                    #<?php echo $categoriaAchada->id ?>
-                                </span>
-                            </td>
                             <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $categoriaAchada->nome ?></td>
                             <td class="px-4 py-3.5">
                                 <span class="badge-cat rounded-full px-2.5 py-0.5 text-[11px]  font-medium">
@@ -271,11 +265,6 @@
                             $categorias = $query->listarCategorias($limitPerPage, $offset);
                             foreach($categorias as $categoria): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5">
-                                <span class="badge-id mono rounded-md px-2 py-0.5 text-[11px] text-[#060606]">
-                                    #<?php echo $categoria->id ?>
-                                </span>
-                            </td>
                             <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal"><?php echo $categoria->nome ?></td> 
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">

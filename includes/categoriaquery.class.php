@@ -10,25 +10,28 @@
         // Create
         // Adiciona uma categoria no DB.
         public function adicionarCategoria($categoriaName){
-        try {
+        // try {
             $query = $this->pdo->prepare("INSERT INTO categorias (nome) VALUES (:nome)");
             $query->bindValue(":nome", $categoriaName);
             $query->execute();
             //retorna true pra nao dar erro lá no if
             return true;
         } 
-        catch (PDOException $e) {
-            if($e->getCode() == 23000){
-                return false; // nome de categoria duplicado
-            }
-            //se o erro não for o 23000, ou seja, não for um erro de nome de categoria duplicado, deixa o erro estourar normalmente pra ser tratado em outro lugar ou mostrar uma mensagem de erro genérica.
-            throw $e; // outro erro qualquer, deixa estourar na tela
-        }
-        }
+        // catch (PDOException $e) {
+        //     if($e->getCode() == 23000){
+        //         return false; // nome de categoria duplicado
+        //     }
+        //     //se o erro não for o 23000, ou seja, não for um erro de nome de categoria duplicado, deixa o erro estourar normalmente pra ser tratado em outro lugar ou mostrar uma mensagem de erro genérica.
+        //     throw $e; // outro erro qualquer, deixa estourar na tela
+        // }
 
 
         // Read
-         
+        public function contarCategorias(){
+            $query = $this->pdo->query("SELECT COUNT(*) AS total FROM categorias");
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            return $resultado->total;
+        }
         //  Lista TODAS as categorias no DB
         // Pega as categorias que estão no DB.
         public function listarCategorias($limite, $offset){

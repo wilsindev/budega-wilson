@@ -19,6 +19,7 @@
                         'dashboard.php' => ['href' => '../pages_produtos/dashboard.php', 'nome' => 'Dashboard'],
                         'produtos.php'  => ['href' => '../pages_produtos/produtos.php',   'nome' => 'Produtos'],
                         'categorias.php'=> ['href' => '../pages_categorias/categorias.php','nome' => 'Categorias'],
+                        'clientes.php' => ['href' => '../pages_clientes/clientes.php', 'nome' => 'Clientes']
 
                 ];
                 ?>
