@@ -29,6 +29,13 @@
 
 
         // Read
+        public function getDadosClientes($clienteId){
+            $query = $this->pdo->prepare("SELECT * FROM clientes WHERE id = :id");
+            $query->bindValue(":id", $clienteId);
+            $query->execute();
+            $cliente = $query->fetch(PDO::FETCH_OBJ);
+            return $cliente;
+        }
         public function contarClientes(){
             $query = $this->pdo->query("SELECT COUNT(*) AS total FROM clientes");
             $resultado = $query->fetch(PDO::FETCH_OBJ);
@@ -45,11 +52,6 @@
             $clientes = $query->fetchAll(PDO::FETCH_OBJ);
             return $clientes;
         }
-        public function getCategorias(){
-            $query = $this->pdo->query("SELECT * FROM categorias ORDER BY nome");
-            $categorias = $query->fetchAll(PDO::FETCH_OBJ);
-            return $categorias;
-        }
         public function buscarClientePorNome($nome){
             $query = $this->pdo->prepare("SELECT * FROM clientes WHERE nome LIKE :nome");
             $query->bindValue(":nome", "%$nome%");
@@ -59,11 +61,13 @@
         }
         //Update
         // Atualiza os dados de uma categoria. Digamos que temos o campo x, y e z. Se o user alterar apenas o x pra N, quando a query for executada no DB, as outras colunas continuaram as mesmas logo que o que o usuario enviou é o mesmo que está no DB. Isso evita a necessidade de criar funções pra alterar cada campo. Obrigado Renan.
-        public function atualizarCliente($clienteID, $clienteName){
+        public function atualizarCliente($clienteID, $clienteName, $clienteCPF, $clienteTelefone){
         //Sintaxe:                     Atualize em clientes os valores nome                         Onde id no DB seja igual a id inserido.
-            $query = $this->pdo->prepare("UPDATE clientes SET nome = :nome WHERE id = :id");
+            $query = $this->pdo->prepare("UPDATE clientes SET nome = :nome, cpf = :cpf, telefone = :telefone WHERE id = :id");
             $query->bindValue(":id", $clienteID);
             $query->bindValue(":nome", $clienteName);
+            $query->bindValue(":cpf", $clienteCPF);
+            $query->bindValue(":telefone", $clienteTelefone);
             $query->execute();
         }
 

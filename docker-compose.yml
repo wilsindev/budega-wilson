@@ -1,0 +1,175 @@
+# ============================================================
+# DOCKER COMPOSE - Orquestrador de Containers
+# ============================================================
+# O Docker Compose permite definir e iniciar MÚLTIPLOS containers
+# com um único comando: docker-compose up
+#
+# Pense em cada "service" (serviço) como um computador separado
+# numa mesma rede. Eles se enxergam pelo nome do serviço.
+#
+# COMANDOS ESSENCIAIS:
+#   docker-compose up -d       → Sobe tudo em segundo plano
+#   docker-compose down        → Para e remove os containers
+#   docker-compose logs -f     → Exibe os logs em tempo real
+# ============================================================
+# NOTA SOBRE A VERSÃO:
+# O atributo "version" foi removido do Compose V2 e gera um aviso
+# de obsolescência. No Compose V2 (Docker Desktop moderno), ele é
+# simplesmente ignorado. Por isso, omitimos completamente.
+# ============================================================
+
+services:
+    # ============================================================
+    # SERVIÇO 1: php
+    # Nosso servidor web. Roda o PHP com Apache.
+    # ============================================================
+    php:
+        # "build" agora usa a forma expandida para apontar o Dockerfile
+        # que foi movido para dentro de docker/.
+        #
+        # context: . → O contexto de build é a RAIZ do projeto.
+        #   Isso significa que o COPY dentro do Dockerfile usa caminhos
+        #   relativos à raiz (ex: COPY docker/apache.conf ...)
+        #
+        # dockerfile: docker/Dockerfile → caminho do Dockerfile dentro do contexto
+        build:
+            context: .
+            dockerfile: docker/Dockerfile
+
+        # Nome amigável para identificar o container nos logs e comandos
+        container_name: lojaWilson_php
+
+        # ports: mapeia portas entre SEU COMPUTADOR e o CONTAINER
+        # Formato: "porta_do_seu_pc:porta_dentro_do_container"
+        # Ao acessar localhost:8080 no navegador, você chega no Apache (porta 80)
+        ports:
+            - "8080:80"
+
+        # volumes: sincroniza pastas entre SEU PC e o CONTAINER
+        # Formato: "caminho_no_seu_pc:caminho_no_container"
+        # O ponto "." representa a pasta atual do projeto.
+        # Resultado: edite um arquivo no VS Code e o servidor atualiza na hora!
+        volumes:
+            - .:/var/www/html
+
+        # depends_on: define a ordem de inicialização dos serviços
+        # O PHP só sobe DEPOIS que o MySQL estiver rodando.
+        depends_on:
+            - mysql
+
+        # networks: conecta este serviço à nossa rede interna privada
+        networks:
+            - rede_lojaWilson
+
+    # ============================================================
+    # SERVIÇO 2: mysql
+    # Nosso banco de dados. Armazena usuários e dados do sistema.
+    # ============================================================
+    mysql:
+        # Aqui usamos uma imagem pronta do Docker Hub (sem Dockerfile)
+        image: mysql:8.0
+
+        container_name: lojaWilson_mysql
+
+        # environment: variáveis de ambiente que o MySQL lê ao inicializar
+        # É como passar configurações sem precisar editar arquivos internos.
+        environment:
+            # Senha do superusuário "root" (administrador do banco)
+            MYSQL_ROOT_PASSWORD: senha_root_123
+
+            # Cria automaticamente este banco de dados ao subir pela primeira vez
+            MYSQL_DATABASE: budegadowilso
+
+            # Cria um usuário "comum" para a aplicação (boa prática: não usar root!)
+            MYSQL_USER: usuario_app
+            MYSQL_PASSWORD: senha_app_123
+
+        volumes:
+            # Este volume PERSISTE os dados do banco no seu computador.
+            # Sem ele, ao rodar "docker-compose down", TODOS os dados seriam perdidos!
+            - dados_mysql:/var/lib/mysql
+
+            # Este arquivo SQL é executado AUTOMATICAMENTE quando o banco sobe
+            # pela PRIMEIRA VEZ. Ele cria nossas tabelas. Muito conveniente!
+            - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+        ports:
+            # Expõe o MySQL na porta 3306 do seu computador.
+            # Útil para conectar ferramentas como DBeaver ou MySQL Workbench.
+            - "3306:3306"
+
+        networks:
+            - rede_lojaWilson
+
+    # ============================================================
+    # SERVIÇO 3: phpmyadmin
+    #
+    # O QUE É O PHPMYADMIN?
+    # É uma ferramenta web GRATUITA para gerenciar bancos de dados
+    # MySQL de forma visual, sem precisar digitar comandos SQL no terminal.
+    # Com ele você consegue:
+    #   ✅ Ver todas as tabelas e seus dados em tempo real
+    #   ✅ Executar e testar consultas SQL de forma interativa
+    #   ✅ Importar e exportar dados com poucos cliques
+    #   ✅ Entender a estrutura do banco de dados facilmente
+    #   ✅ Aprender SQL na prática com uma interface amigável
+    #
+    # ⚠️  ATENÇÃO: NUNCA use o phpMyAdmin em PRODUÇÃO! ⚠️
+    #
+    # "Produção" é o servidor real que os usuários da internet acessam.
+    # Neste ambiente, o phpMyAdmin é um SÉRIO risco de segurança porque:
+    #
+    #   ❌ Expõe ao mundo uma interface com acesso TOTAL ao seu banco de dados
+    #   ❌ É alvo frequente de robôs que tentam milhares de senhas (força bruta)
+    #   ❌ Vulnerabilidades históricas no phpMyAdmin permitiram invasões completas
+    #   ❌ Se invadido, o atacante pode ler, modificar ou apagar TODOS os seus dados
+    #
+    # REGRA DE OURO:
+    #   - Ambiente LOCAL (seu PC, Docker): ✅ Use o phpMyAdmin à vontade!
+    #   - Ambiente de PRODUÇÃO (servidor real): ❌ NUNCA exponha o phpMyAdmin!
+    #   - Em produção, gerencie o banco via SSH com acesso restrito por IP.
+    # ============================================================
+    phpmyadmin:
+        image: phpmyadmin:latest
+
+        container_name: lojaWilson_phpmyadmin
+
+        environment:
+            # Diz ao phpMyAdmin onde fica o MySQL (usamos o nome do serviço!)
+            # Dentro da rede Docker, os serviços se comunicam pelo nome, não por IP.
+            PMA_HOST: mysql
+            PMA_USER: root
+            PMA_PASSWORD: senha_root_123
+
+        ports:
+            # Acesse o phpMyAdmin em: http://localhost:8081
+            - "8081:80"
+
+        depends_on:
+            - mysql
+
+        networks:
+            - rede_lojaWilson
+
+# ============================================================
+# VOLUMES - Armazenamento Persistente
+# ============================================================
+# Volumes são espaços de disco gerenciados pelo próprio Docker.
+# O volume "dados_mysql" garante que os dados do banco de dados
+# continuem existindo mesmo depois de parar os containers.
+# ============================================================
+volumes:
+    dados_mysql:
+
+# ============================================================
+# NETWORKS - Rede Interna
+# ============================================================
+# A rede permite que os containers se comuniquem entre si de forma
+# isolada. Dentro desta rede:
+#   - O PHP acessa o MySQL usando o host "mysql" (não "localhost"!)
+#   - O phpMyAdmin acessa o MySQL da mesma forma
+# O driver "bridge" é o tipo padrão e mais comum de rede Docker.
+# ============================================================
+networks:
+    rede_lojaWilson:
+        driver: bridge

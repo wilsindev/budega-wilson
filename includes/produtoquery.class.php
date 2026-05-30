@@ -24,6 +24,17 @@
 
 
         // Read
+        // Pega apenas um produto e seus dados no DB  usando seu ID que é único.
+        //usado no editar.php para preencher os campos com os dados atuais do produto.
+        public function getDadosProdutos($produtoId){
+        //Sintaxe                    Selecionar Tudo Da Tabela  Onde o id no DB seja igual ao id inserido pelo user.
+            $query = $this->pdo->prepare("SELECT p.*, c.nome AS categoria FROM produtos p JOIN categorias c ON p.categoria_id = c.id WHERE p.id = :id");
+            $query->bindValue(":id", $produtoId);
+            $query->execute();
+            $produto = $query->fetch(PDO::FETCH_OBJ);
+            return $produto;
+        }
+
         public function contarProdutos(){
             $query = $this->pdo->query("SELECT COUNT(*) AS total FROM produtos");
             $resultado = $query->fetch(PDO::FETCH_OBJ);
@@ -43,17 +54,6 @@
         //                 PegarTudoQueVeio em formato de objeto. PDO::FETCH_ASSOC também pode ser usado, retornando tudo em forma de"dicionário"  
             $produtos = $query->fetchAll(PDO::FETCH_OBJ);
             return $produtos;
-        }
-
-        // Pega apenas um produto e seus dados no DB  usando seu ID que é único.
-        //usado no editar.php para preencher os campos com os dados atuais do produto.
-        public function getDadosProdutos($produtoId){
-        //Sintaxe                    Selecionar Tudo Da Tabela  Onde o id no DB seja igual ao id inserido pelo user.
-            $query = $this->pdo->prepare("SELECT p.*, c.nome AS categoria FROM produtos p JOIN categorias c ON p.categoria_id = c.id WHERE p.id = :id");
-            $query->bindValue(":id", $produtoId);
-            $query->execute();
-            $produto = $query->fetch(PDO::FETCH_OBJ);
-            return $produto;
         }
 
         // Filtra os produtos por categoria 

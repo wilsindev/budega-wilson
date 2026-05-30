@@ -1,7 +1,7 @@
 <?php 
     require_once __DIR__ . '/../includes/auth_check.php';
     $erro = '';
-     if(isset($_SESSION['user_id']) && $_SESSION['is_admin'] == 0){
+     if(isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 0){
         header("Location: ../pages_produtos/produtos.php");
         exit;
     }
@@ -12,17 +12,26 @@
         if (!empty($_POST['nome']) && !empty($_POST['email']) && !empty($_POST['senha'])){
             if(strlen($_POST['senha']) < 8){
                 $erro = "A senha deve conter no mínimo 8 caracteres.";
-            } else {
-                $query = new UserQuery($pdo);
-                $salvo = $query->salvarUser($_POST['nome'], $_POST['email'], $_POST['senha'], $_POST['is_admin']);
-                if($salvo){
+            } 
+            else {
+                try{
+                    $query = new UserQuery($pdo);
+                    $query->salvarUser($_POST['nome'], $_POST['email'], $_POST['senha'], $_POST['is_admin']);
                     header("Location: logar.php");
                     exit;
-                } else {
-                    $erro = "Este email já está cadastrado.";
+                }
+                catch(PDOException $e){
+                    if($e->getCode() == 23000){
+                        $erro = "Já existe um usuário com esse Email. Por favor, verifique o Email e tente novamente.";
+                    }
+                    //se o erro não for o 23000, ou seja, não for um erro de nome de categoria duplicado, deixa o erro estourar normalmente pra ser tratado em outro lugar ou mostrar uma mensagem de erro genérica.
+                    else{
+                        throw $e; // outro erro qualquer, deixa estourar na tela
+                    }
                 }
             }
-        } else {
+        } 
+        else {
             $erro = "Preencha todas as credenciais para continuar o cadastro.";
         }
     }

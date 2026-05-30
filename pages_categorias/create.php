@@ -3,24 +3,34 @@
     require_once __DIR__ .  '/../includes/categoriaquery.class.php';
     require_once __DIR__ . '/../config/conexao.php';
     $erro = "";
-    if (isset($_POST['nome'])){
-        try{
-            $query = new CategoriaQuery($pdo);
-            $categoriaNome = $_POST['nome'];
-            $query->adicionarCategoria($categoriaNome); 
-            header("Location: categorias.php");
-            exit;
-        }
-        catch(PDOException $e){
-            if($e->getCode() == 23000){
-                $erro = "Já existe uma categoria com esse nome. Por favor, escolha outro nome.";
+    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if (!empty($_POST['nome'])){
+            if(strlen($_POST['nome']) < 3) {
+                $erro = "O nome da categoria deve ter pelo menos 3 caracteres.";
             }
-            //se o erro não for o 23000, ou seja, não for um erro de nome de categoria duplicado, deixa o erro estourar normalmente pra ser tratado em outro lugar ou mostrar uma mensagem de erro genérica.
             else{
-                throw $e; // outro erro qualquer, deixa estourar na tela
+                try{
+                    $query = new CategoriaQuery($pdo);
+                    $categoriaNome = $_POST['nome'];
+                    $query->adicionarCategoria($categoriaNome); 
+                    header("Location: categorias.php");
+                    exit;
+                }
+                catch(PDOException $e){
+                    if($e->getCode() == 23000){
+                        $erro = "Já existe uma categoria com esse nome. Por favor, escolha outro nome.";
+                    }
+                    //se o erro não for o 23000, ou seja, não for um erro de nome de categoria duplicado, deixa o erro estourar normalmente pra ser tratado em outro lugar ou mostrar uma mensagem de erro genérica.
+                    else{
+                        throw $e; // outro erro qualquer, deixa estourar na tela
+                    }
+                }
             }
-        }
+            }
+        else{
+            $erro = "O nome da categoria não pode estar vazio. Por favor, preencha o nome para continuar.";}
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -57,7 +67,7 @@
 
                 <!-- Nome -->
                 <div class="flex flex-col gap-1.5">
-                    <label for="nome" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Nome da categoria</label>
+                    <label for="nome" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Nome da categoria <span class="text-red-600">*</span></label>
                     <input type="text" id="nome" name="nome" required
                            class="bg-slate-50 border border-slate-200 text-slate-700 text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
                                   focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]

@@ -3,16 +3,37 @@
     require_once __DIR__ .  '/../includes/produtoquery.class.php';
     require_once __DIR__ . '/../includes/categoriaquery.class.php';
     require_once __DIR__ . '/../config/conexao.php';
+    $erro = "";
     $categoriaQuery = new CategoriaQuery($pdo);
     $categorias = $categoriaQuery->getCategorias();
-    if (isset($_POST['nome']) && isset($_POST['categoria']) && isset($_POST['preco'])){
-        $query = new ProdutoQuery($pdo);
-        $produtoNome = $_POST['nome'];
-        $produtoCategoria = $_POST['categoria'];
-        $produtoPreco = $_POST['preco'];
-        $query->adicionarProduto($produtoNome, $produtoPreco, $produtoCategoria);
-        header("Location: produtos.php");
-        exit;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if (!empty($_POST['nome']) && !empty($_POST['categoria']) && !empty($_POST['preco'])){
+            if (!is_numeric($_POST['preco']) || $_POST['preco'] < 0) {
+                $erro = "Por favor, insira um preço válido.";
+            } 
+            else if (strlen($_POST['nome']) < 3) {
+                $erro = "O nome do produto deve ter pelo menos 3 caracteres.";
+            }
+            else{
+                try{
+                    $query = new ProdutoQuery($pdo);
+                    $produtoNome = $_POST['nome'];
+                    $produtoCategoria = $_POST['categoria'];
+                    $produtoPreco = $_POST['preco'];
+                    $query->adicionarProduto($produtoNome, $produtoPreco, $produtoCategoria);
+                    header("Location: produtos.php");
+                    exit;
+                }
+                catch(PDOException $e){
+                    if($e->getCode() == 23000){
+                        $erro = "Já existe um produto com esse nome. Por favor, verifique o nome e tente novamente.";
+                    }
+                    else{
+                        throw $e;
+                    }
+                }
+            }
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -63,7 +84,12 @@
 
         <div class="bg-white border border-slate-200 rounded-2xl p-8 w-full max-w-md flex flex-col gap-6"
              style="box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 8px 24px rgba(15,23,42,0.05);">
-
+            <?php if ($erro): ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Oops!</strong>
+                    <span class="block sm:inline"><?= $erro ?></span>
+                </div>
+            <?php endif; ?>
             <!-- Header do card -->
             <div class="flex flex-col gap-1">
                 <h2 class="text-[17px] font-semibold text-slate-800 tracking-tight">Cadastro de Produto</h2>
@@ -77,7 +103,7 @@
 
                 <!-- Nome -->
                 <div class="flex flex-col gap-1.5">
-                    <label for="nome" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Nome</label>
+                    <label for="nome" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Nome <span class="text-red-600">*</span></label>
                     <input type="text" id="nome" name="nome" required
                            class="bg-slate-50 border border-slate-200 text-slate-700 text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
                                   focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
@@ -87,7 +113,7 @@
 
                 <!-- Categoria -->
                 <div class="flex flex-col gap-1.5">
-                    <label for="categoria" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Categoria</label>
+                    <label for="categoria" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Categoria <span class="text-red-600">*</span></label>
                     <select  name="categoria" id="categoria"  required
                         class="select border-none">
                         <option value="" selected disabled>Selecione uma categoria</option>
@@ -99,7 +125,7 @@
 
                 <!-- Preço -->
                 <div class="flex flex-col gap-1.5">
-                    <label for="preco" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Preço</label>
+                    <label for="preco" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Preço <span class="text-red-600">*</span></label>
                     <div class="relative">
                         <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[13px] text-[#060606] font-medium select-none">R$</span>
                         <input type="number" id="preco" name="preco" step="0.01" min="0" required

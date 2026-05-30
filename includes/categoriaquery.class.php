@@ -27,6 +27,14 @@
 
 
         // Read
+        public function getDadosCategorias($categoriaId){
+            $query = $this->pdo->prepare("SELECT * FROM categorias WHERE id = :id");
+            $query->bindValue(":id", $categoriaId);
+            $query->execute();
+            $categoria = $query->fetch(PDO::FETCH_OBJ);
+            return $categoria;
+        }
+
         public function contarCategorias(){
             $query = $this->pdo->query("SELECT COUNT(*) AS total FROM categorias");
             $resultado = $query->fetch(PDO::FETCH_OBJ);
@@ -70,9 +78,19 @@
         // Deleta uma categoria, óbvio.
         public function removerCategoria($categoriaID){
         //Sintaxe =                       Delete Em  categorias onde id no DB seja igual a id inserido.
-            $query = $this->pdo->prepare("DELETE FROM categorias WHERE id = :id");
-            $query->bindValue(":id", $categoriaID);
-            $query->execute();
+            try{
+                $query = $this->pdo->prepare("DELETE FROM categorias WHERE id = :id");
+                $query->bindValue(":id", $categoriaID);
+                $query->execute();
+            }
+            catch(PDOException $e){
+                if($e->getCode() == 23000){
+                    return false;
+                }
+                else{
+                    throw $e; // outro erro qualquer, deixa estourar na tela
+                }
+            }
         }
     }
 ?>

@@ -12,8 +12,7 @@
         // faltar colocar quantidade. 
         // fazer sistema de paginação com filtro
         public function salvarUser($userName, $userEmail, $userPassword, $userIsAdmin){
-        //                                Inserir Na   Tabela     Colunas da tabela   Valores  Aqui são     
-        try {
+        //                                Inserir Na   Tabela     Colunas da tabela   Valores  Aqui são     os placeholders que vão ser substituidos.
             $query = $this->pdo->prepare("INSERT INTO users (nome, email, senha, is_admin) VALUES (:nome, :email, :senha, :is_admin)");
             $senha_hashada = password_hash($userPassword, PASSWORD_DEFAULT);
             $query->bindValue(":nome", $userName);
@@ -23,18 +22,16 @@
             $query->execute();
             //retorna true pra nao dar erro lá no if
             return true;
-        } 
-        catch (PDOException $e) {
-            if($e->getCode() == 23000){
-                return false; // email duplicado
-            }
-            //se o erro não for o 23000, ou seja, não for um erro de email duplicado, deixa o erro estourar normalmente pra ser tratado em outro lugar ou mostrar uma mensagem de erro genérica.
-            throw $e; // outro erro qualquer, deixa estourar na tela
         }
-        }
-
 
         // Read
+        public function getDadosUser($userId){
+            $query = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
+            $query->bindValue(":id", $userId);
+            $query->execute();
+            $user = $query->fetch(PDO::FETCH_OBJ);
+            return $user;
+        }
         public function contarUsers(){
             $query = $this->pdo->query("SELECT COUNT(*) AS total FROM users");
             $resultado = $query->fetch(PDO::FETCH_OBJ);
@@ -47,7 +44,6 @@
             $user = $query->fetch(PDO::FETCH_OBJ);
             //se existir um user com esse email e a senha inserida for igual a senha do DB, retorna o user, senão retorna false. O password_verify é usado para comparar a senha inserida com a senha hashada do DB.
             if($user && password_verify($userPassword, $user->senha)){
-                session_start();
                 $_SESSION['user_id'] = $user->id;
                 $_SESSION['user_name'] = $user->nome;
                 $_SESSION['is_admin'] = $user->is_admin;
@@ -55,14 +51,6 @@
             } else {
                 return false;
             }
-        }
-
-        public function getDadosUser($userId){
-            $query = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
-            $query->bindValue(":id", $userId);
-            $query->execute();
-            $user = $query->fetch(PDO::FETCH_OBJ);
-            return $user;
         }
 
         //Update
