@@ -7,22 +7,26 @@
     $categoriaQuery = new CategoriaQuery($pdo);
     $categorias = $categoriaQuery->getCategorias();
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-        if (!empty($_POST['nome']) && !empty($_POST['categoria']) && !empty($_POST['preco'])){
-            if (!is_numeric($_POST['preco']) || $_POST['preco'] < 0) {
+        $produtoNome = trim($_POST['nome'] ?? '');
+        $produtoCategoria = trim($_POST['categoria'] ?? '');
+        $produtoPreco = trim($_POST['preco'] ?? '');
+
+        if ($produtoNome !== '' && $produtoCategoria !== '' && $produtoPreco !== ''){
+            if (!is_numeric($produtoPreco) || $produtoPreco < 0) {
                 $erro = "Por favor, insira um preço válido.";
             } 
-            else if (strlen($_POST['nome']) < 3) {
-                $erro = "O nome do produto deve ter pelo menos 3 caracteres.";
+            // Preg match verifica se o nome contém ao menos uma sequência de 2 letras seguidas.
+            // Bloqueia nomes puramente numéricos como "8777" ou "A1",
+            // mas permite nomes mistos como "7Up", "Coca-Cola" ou "BalaSeven".
+            else if (strlen($produtoNome) < 3 || strlen($produtoNome) > 255 || !preg_match('/[a-zA-ZÀ-ÿ]{2,}/', $produtoNome)) {
+                $erro = "O nome do produto deve ter entre 3 e 255 caracteres e ao menos uma palavra.";
             }
             else{
                 try{
                     $query = new ProdutoQuery($pdo);
-                    $produtoNome = $_POST['nome'];
-                    $produtoCategoria = $_POST['categoria'];
-                    $produtoPreco = $_POST['preco'];
                     $query->adicionarProduto($produtoNome, $produtoPreco, $produtoCategoria);
                     header("Location: produtos.php");
-                    exit;
+                    exit;       
                 }
                 catch(PDOException $e){
                     if($e->getCode() == 23000){
@@ -33,6 +37,9 @@
                     }
                 }
             }
+        }
+        else{
+            $erro = "Por favor, preencha todos os campos obrigatórios.";
         }
     }
 ?>
@@ -52,7 +59,7 @@
     <title>Loja do Wilson - Cadastro de Produto</title>
 </head>
 <style>
-    .select2-container .select2-selection--single {
+.select2-container .select2-selection--single {
     height: 40px;
     border: 1px solid #e5e7eb;
     border-radius: 6px;

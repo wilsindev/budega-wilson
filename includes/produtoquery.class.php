@@ -77,12 +77,6 @@
             return $produtos;
         }
 
-        // Pega as categorias que estão no DB. O DISTINCT serve para não pegar duplicatas. Esse código aqui é usada nas options do select lá em filtrar.
-        public function listarCategorias(){
-            $query = $this->pdo->query("SELECT DISTINCT id, nome FROM categorias");
-            $categorias = $query->fetchAll(PDO::FETCH_OBJ);
-            return $categorias;
-        }
 
         //Update
         // Atualiza os dados de um produto. Digamos que temos o campo x, y e z. Se o user alterar apenas o x pra N, quando a query for executada no DB, as outras colunas continuaram as mesmas logo que o que o usuario enviou é o mesmo que está no DB. Isso evita a necessidade de criar funções pra alterar cada campo. Obrigado Renan.

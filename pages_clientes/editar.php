@@ -7,21 +7,46 @@ $query = new ClienteQuery($pdo);
 $clienteId = $_GET['id'] ?? null;
 
 if (!$clienteId) {
-    http_response_code(404);
-    header("Location: ../404.php");
-    exit;
-}
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $query->atualizarCliente(
-        $clienteId,
-        $_POST['nome'],
-        $_POST['cpf'],
-        $_POST['telefone']
-    );
     header("Location: clientes.php");
     exit;
 }
-$cliente = $query->getDadosClientes($clienteId);
+else{
+    $cliente = $query->getDadosClientes($clienteId);
+}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!empty($_POST['nome']) && !empty($_POST['cpf']) && !empty($_POST['telefone'])) {
+        if (strlen($_POST['nome']) < 3) {
+        $erro = "O nome do cliente deve ter pelo menos 3 caracteres.";
+        }
+        else if (strlen($_POST['cpf']) != 14) {
+            $erro = "Por favor, insira um CPF válido.";
+        }
+        else if (strlen($_POST['telefone']) < 14) {
+            $erro = "Por favor, insira um telefone válido no formato (XX) XXXXX-XXXX.";
+        }
+        else {
+            try{
+                $query->atualizarCliente(
+                    $clienteId,
+                    $_POST['nome'],
+                    $_POST['cpf'],
+                    $_POST['telefone']
+                );
+                header("Location: clientes.php");
+                exit;
+            } catch (PDOException $e) {
+                if ($e->getCode() == 23000) {
+                    $erro = "Já existe um cliente com esse CPF. Por favor, verifique o CPF e tente novamente.";
+                } else {
+                    throw $e;
+                }
+            }
+        } 
+    }
+    else {
+        $erro = "Por favor, preencha todos os campos obrigatórios.";
+    }
+}
 ?>
 
 <!DOCTYPE html>

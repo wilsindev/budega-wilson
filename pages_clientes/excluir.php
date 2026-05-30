@@ -4,7 +4,7 @@
         header("Location: clientes.php");
         exit;
     }
-    $clienteId = $_GET['id'];
+    $clienteId = $_GET['id'] ?? null;
     if(!$clienteId){
         header("Location: clientes.php");
         exit;

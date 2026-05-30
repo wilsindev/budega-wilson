@@ -1,7 +1,14 @@
 <?php
     require_once __DIR__ . '/../includes/auth_check.php';
-    $produtoId = $_GET['id'];
-    
+    if($_SESSION['is_admin'] !== 1){
+        header("Location: categorias.php");
+        exit;
+    }
+    $produtoId = $_GET['id'] ?? null;
+    if(!$produtoId){
+        header("Location: produtos.php");
+        exit;
+    }
     require_once __DIR__ .  '/../includes/produtoquery.class.php';
     require_once __DIR__ .  '/../config/conexao.php';
     $query = new ProdutoQuery($pdo);

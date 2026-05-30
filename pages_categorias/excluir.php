@@ -4,12 +4,11 @@
         header("Location: categorias.php");
         exit;
     }
-    $categoriaId = $_GET['id'];
+    $categoriaId = $_GET['id'] ?? null;
     if(!$categoriaId){
         header("Location: categorias.php");
         exit;
     }
-    
     require_once __DIR__ .  '/../includes/categoriaquery.class.php';
     require_once __DIR__ .  '/../config/conexao.php';
     $query = new CategoriaQuery($pdo);

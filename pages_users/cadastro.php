@@ -9,14 +9,17 @@
     require_once __DIR__ .  '/../config/conexao.php';
     // Vê se o formulário foi submetido
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-        if (!empty($_POST['nome']) && !empty($_POST['email']) && !empty($_POST['senha'])){
-            if(strlen($_POST['senha']) < 8){
+        $nome = trim($_POST['nome'] ?? '');
+        $email = trim($_POST['email'] ?? ''); 
+        $senha = trim($_POST['senha'] ?? '');
+        if ($nome !== '' && $email !== '' && $senha !== ''){
+            if(strlen($senha) < 8){
                 $erro = "A senha deve conter no mínimo 8 caracteres.";
             } 
             else {
                 try{
                     $query = new UserQuery($pdo);
-                    $query->salvarUser($_POST['nome'], $_POST['email'], $_POST['senha'], $_POST['is_admin']);
+                    $query->salvarUser($nome, $email, $senha, $_POST['is_admin']);
                     header("Location: logar.php");
                     exit;
                 }

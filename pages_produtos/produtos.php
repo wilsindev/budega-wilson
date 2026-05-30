@@ -2,11 +2,13 @@
     require_once __DIR__ . '/../includes/auth_check.php';
 // __DIR__ Retorna a pasta do arquivo atual.
     require_once __DIR__ . '/../includes/produtoquery.class.php';
+    require_once __DIR__ . '/../includes/categoriaquery.class.php';
     require_once __DIR__ . '/../config/conexao.php';
     $page = $_GET['pagina'] ?? 1;
     $limitPerPage = 5;
     $offset = ($page - 1) * $limitPerPage;
     $query = new ProdutoQuery($pdo);
+    $categoriaQuery = new CategoriaQuery($pdo);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -229,7 +231,7 @@
                             class="field select bg-white border border-slate-200 text-slate-600 text-[13px] rounded-lg px-9 py-2 cursor-pointer">
                         <option value="" selected>Filtrar categoria</option>
                         <?php 
-                            $categorias = $query->listarCategorias();
+                            $categorias = $categoriaQuery->getCategorias();
                             foreach($categorias as $categoria){ ?>
                         <option value="<?php echo $categoria->id ?>"><?= $categoria->nome ?></option>
                         <?php } ?>
@@ -273,7 +275,7 @@
                             <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $produtoAchado->nome ?></td>
                             <td class="px-4 py-3.5 text-[13px] price-val font-medium mono"><?php echo number_format($produtoAchado->preco, 2, ',', '.') ?></td>
                             <td class="px-4 py-3.5">
-                                <span class="badge-cat rounded-full px-2.5 py-0.5 text-[11px]  font-medium">
+                                <span class="badge-cat whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px]  font-medium">
                                     <?php echo $produtoAchado->categoria ?>
                                 </span>
                             </td>
@@ -300,7 +302,7 @@
                             <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $produtoFiltrado->nome ?></td>
                             <td class="px-4 py-3.5 text-[13px] price-val font-medium mono"><?php echo number_format($produtoFiltrado->preco, 2, ',', '.') ?></td>
                             <td class="px-4 py-3.5">
-                                <span class="badge-cat rounded-full px-2.5 py-0.5 text-[11px] font-medium">
+                                <span class="badge-cat whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px] font-medium">
                                     <?php echo $produtoFiltrado->categoria ?>
                                 </span>
                             </td>
@@ -326,7 +328,7 @@
                             <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal"><?php echo $produto->nome ?></td>
                             <td class="px-4 py-3.5 text-[13px] text-[#060606] price-val font-medium mono"><?php echo number_format($produto->preco, 2, ',', '.') ?></td>
                             <td class="px-4 py-3.5">
-                                <span class="badge-cat rounded-full px-2.5 py-0.5 text-[11px]  text-[#060606] font-medium">
+                                <span class="badge-cat whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px]  text-[#060606] font-medium">
                                     <?php echo $produto->categoria ?>
                                 </span>
                             </td>

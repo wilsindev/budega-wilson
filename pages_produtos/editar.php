@@ -1,27 +1,49 @@
 <?php
 require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ .  '/../includes/produtoquery.class.php';
+require_once __DIR__ .  '/../includes/categoriaquery.class.php';
 require_once __DIR__ .  '/../config/conexao.php';
 
 $query = new ProdutoQuery($pdo);
+$categoriaQuery = new CategoriaQuery($pdo);
+$categorias = $categoriaQuery->getCategorias();
 $produtoId = $_GET['id'] ?? null;
-
 if (!$produtoId) {
-    http_response_code(404);
-    header("Location: ../404.php");
-    exit;
-}
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $query->atualizarProduto(
-        $produtoId,
-        $_POST['nome'],
-        $_POST['preco'],
-        $_POST['categoria']
-    );
     header("Location: produtos.php");
     exit;
 }
-$produto = $query->getDadosProdutos($produtoId);
+else{
+    $produto = $query->getDadosProdutos($produtoId);
+}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!empty($_POST['nome']) && !empty($_POST['categoria']) && !empty($_POST['preco'])) {
+        if (!is_numeric($_POST['preco']) || $_POST['preco'] < 0) {
+            $erro = "Por favor, insira um preço válido.";
+        } else if (strlen($_POST['nome']) < 3) {
+            $erro = "O nome do produto deve ter pelo menos 3 caracteres.";
+        } else {
+            try {
+                $query->atualizarProduto(
+                    $produtoId,
+                    $_POST['nome'],
+                    $_POST['preco'],
+                    $_POST['categoria']
+                );
+                header("Location: produtos.php");
+                exit;
+            } catch (PDOException $e) {
+                if ($e->getCode() == 23000) {
+                    $erro = "Já existe um produto com esse nome. Por favor, verifique o nome e tente novamente.";
+                } else {
+                    throw $e;
+                }
+            }
+        }
+    } 
+    else {
+        $erro = "Por favor, preencha todos os campos obrigatórios.";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,9 +53,40 @@ $produto = $query->getDadosProdutos($produtoId);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="../js/select.js" defer></script>
     <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
     <title>Loja do Wilson - Editar produto</title>
 </head>
+<style>
+.select2-container .select2-selection--single {
+    height: 40px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+/* Texto selecionado */
+.select2-container .select2-selection--single .select2-selection__rendered {
+    color: #060606;
+    font-size: 14px;
+    line-height: 32px;
+}
+
+/* Dropdown */
+.select2-dropdown {
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Opção com hover */
+.select2-results__option--highlighted {
+    background-color: #818cf8 !important;
+}
+</style>
 <body class="bg-[#f4f6f9] w-full min-h-screen">
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="flex flex-col items-center justify-center w-full min-h-screen py-10">
@@ -69,12 +122,16 @@ $produto = $query->getDadosProdutos($produtoId);
 
                 <!-- Categoria -->
                 <div class="flex flex-col gap-1.5">
-                    <label for="categoria" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Categoria</label>
-                    <input type="text" id="categoria" name="categoria"
-                           value="<?php echo $produto->categoria ?>" required
-                           class="bg-slate-50 border border-slate-200 text-[#060606] text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
-                                  focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
-                                  placeholder-slate-300">
+                    <label for="categoria" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Categoria <span class="text-red-600">*</span></label>
+                    <select  name="categoria" id="categoria"  required
+                        class="select border-none">
+                        <?php foreach ($categorias as $categoria): ?>
+                            <option value="<?= $categoria->id ?>" <?= $categoria->id == $produto->categoria_id ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($categoria->nome) ?>
+                            </option>
+                        <?php endforeach; ?>
+                        
+                    </select>
                 </div>
 
                 <!-- Preço -->

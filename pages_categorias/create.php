@@ -4,14 +4,14 @@
     require_once __DIR__ . '/../config/conexao.php';
     $erro = "";
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-        if (!empty($_POST['nome'])){
-            if(strlen($_POST['nome']) < 3) {
+        $categoriaNome = trim($_POST['nome'] ?? '');
+        if ($categoriaNome !== ''){
+            if(strlen($categoriaNome) < 3) {
                 $erro = "O nome da categoria deve ter pelo menos 3 caracteres.";
             }
             else{
                 try{
                     $query = new CategoriaQuery($pdo);
-                    $categoriaNome = $_POST['nome'];
                     $query->adicionarCategoria($categoriaNome); 
                     header("Location: categorias.php");
                     exit;

@@ -11,16 +11,36 @@ if (!$categoriaId) {
     header("Location: ../404.php");
     exit;
 }
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $query->atualizarCategoria(
-        $categoriaId,
-        $_POST['nome']
-
-    );
-    header("Location: categorias.php");
-    exit;
+else{
+    $categoria = $query->getDadosCategorias($categoriaId);
 }
-$categoria = $query->getDadosCategorias($categoriaId);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!empty($_POST['nome'])) {
+        if (strlen($_POST['nome']) < 3) {
+            $erro = "O nome da categoria deve ter pelo menos 3 caracteres.";
+        } 
+        else {
+            try {
+                $query->atualizarCategoria(
+                    $categoriaId,
+                    $_POST['nome']
+                );
+                header("Location: categorias.php");
+                exit;
+            } 
+            catch (PDOException $e) {
+                if ($e->getCode() == 23000) {
+                    $erro = "Já existe uma categoria com esse nome. Por favor, verifique o nome e tente novamente.";
+                } else {
+                    throw $e;
+                }
+            }
+        }
+    } 
+    else {
+        $erro = "Por favor, preencha todos os campos obrigatórios.";
+    }
+}
 ?>
 
 <!DOCTYPE html>

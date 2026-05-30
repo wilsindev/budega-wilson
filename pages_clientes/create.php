@@ -4,23 +4,23 @@
     require_once __DIR__ . '/../config/conexao.php';
     $erro = "";
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-        if (!empty($_POST['nome']) && !empty($_POST['cpf']) && !empty($_POST['telefone'])){
-            if(strlen($_POST['nome']) < 3) {
+        $clienteNome = trim($_POST['nome'] ?? '');
+        $clienteCpf = trim($_POST['cpf'] ?? '');
+        $clienteTelefone = trim($_POST['telefone'] ?? '');
+        if ($clienteNome !== '' && $clienteCpf !== '' && $clienteTelefone !== ''){
+            if(strlen($clienteNome) < 3) {
                 $erro = "O nome do cliente deve ter pelo menos 3 caracteres.";
             }
-            else if (strlen($_POST['cpf']) !== 14) {
+            else if (strlen($clienteCpf) !== 14) {
                 $erro = "Por favor, insira um CPF válido no formato XXX.XXX.XXX-XX.";
             }
-             else if (strlen($_POST['telefone']) < 14) {
+             else if (strlen($clienteTelefone) < 14) {
                 $erro = "Por favor, insira um telefone válido no formato (XX) XXXXX-XXXX";
             }
             else{
                 try{
                     $query = new ClienteQuery($pdo);
-                    $clienteName = $_POST['nome'];
-                    $clienteCpf = $_POST['cpf'];
-                    $clienteTelefone = $_POST['telefone'];
-                    $query->adicionarCliente($clienteName, $clienteCpf, $clienteTelefone);
+                    $query->adicionarCliente($clienteNome, $clienteCpf, $clienteTelefone);
                     header("Location: clientes.php");
                     exit;
                 }
