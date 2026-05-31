@@ -34,7 +34,10 @@
                     }
                 }
             }
-      }
+        }
+        else{
+            $erro = "Preencha todas as informações para cadastrar um cliente.";
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -107,7 +110,7 @@
                 <!-- Nome -->
                 <div class="flex flex-col gap-1.5">
                     <label for="nome" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Nome <span class="text-red-600">*</span></label>
-                    <input type="text" id="nome" name="nome" required
+                    <input type="text" id="nome" name="nome" 
                            class="bg-slate-50 border border-slate-200 text-slate-700 text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
                                   focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
                                   placeholder-slate-300"
@@ -117,7 +120,7 @@
                 <!-- Cpf -->
                 <div class="flex flex-col gap-1.5" x-data>
                     <label for="cpf" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Cpf <span class="text-red-600">*</span></label>
-                    <input  x-mask="999.999.999-99" type="text" id="cpf" name="cpf" required
+                    <input  x-mask="999.999.999-99" type="text" id="cpf" name="cpf" 
                            class="bg-slate-50 border border-slate-200 text-slate-700 text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
                                   focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
                                   placeholder-slate-300"
@@ -127,7 +130,7 @@
                 <!-- Telefone -->
                 <div class="flex flex-col gap-1.5" x-data>
                     <label for="telefone" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Telefone <span class="text-red-600">*</span></label>
-                    <input  x-mask="(99) 99999-9999" type="text" id="telefone" name="telefone" required
+                    <input  x-mask="(99) 99999-9999" type="text" id="telefone" name="telefone" 
                            class="bg-slate-50 border border-slate-200 text-slate-700 text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
                                   focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
                                   placeholder-slate-300"
@@ -145,7 +148,7 @@
             </form>
 
             <!-- Voltar -->
-            <a href="produtos.php"
+            <a href="clientes.php"
                class="flex items-center gap-1.5 text-[13px] text-[#060606] hover:text-rose-500 transition-colors w-fit">
                 <i class="fa-solid fa-arrow-left text-[11px]"></i>
                 Voltar para clientes

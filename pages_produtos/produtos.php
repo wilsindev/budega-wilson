@@ -23,6 +23,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="../js/select.js" defer></script>
+    <script src="../js/modal.js" defer></script>
     <title>Loja do Wilson - Produtos</title>
     <style>
         * { font-family: 'Geist', system-ui, sans-serif; }
@@ -281,10 +282,10 @@
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <a href="excluir.php?id=<?php echo $produtoAchado->id ?>"
+                                    <button onclick="abrirModal('produto', '<?php echo $produtoAchado->nome ?>', 'excluir.php?id=<?php echo $produtoAchado->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
-                                    </a>
+                                    </button>
                                     <a href="editar.php?id=<?php echo $produtoAchado->id ?>"
                                        class="action-edit text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-pen mr-1 text-[9px]"></i>Editar
@@ -308,10 +309,10 @@
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <a href="excluir.php?id=<?php echo $produtoFiltrado->id ?>"
+                                    <button onclick="abrirModal('produto', '<?php echo $produtoFiltrado->nome ?>', 'excluir.php?id=<?php echo $produtoFiltrado->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
-                                    </a>
+                                    </button>
                                     <a href="editar.php?id=<?php echo $produtoFiltrado->id ?>"
                                        class="action-edit text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-pen mr-1 text-[9px]"></i>Editar
@@ -334,10 +335,10 @@
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <a href="excluir.php?id=<?php echo $produto->id ?>"
+                                    <button onclick="abrirModal('produto', '<?php echo $produto->nome ?>', 'excluir.php?id=<?php echo $produto->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
-                                    </a>
+                                    </button>
                                     <a href="editar.php?id=<?php echo $produto->id ?>"
                                        class="action-edit text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-pen mr-1 text-[9px]"></i>Editar
@@ -373,5 +374,18 @@
 
         </div>
     </main>
+    <div id="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.35); z-index:50; align-items:center; justify-content:center;">
+        <div style="background:#fff; border:1px solid #e8ecf0; border-radius:16px; padding:28px; width:100%; max-width:380px; font-family:'Geist',system-ui,sans-serif;">
+            <div style="width:40px;height:40px;background:#fff5f5;border:1px solid #fecaca;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#ef4444;margin-bottom:14px;">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <p id="modal-title" style="font-size:15px;font-weight:600;color:#1e293b;margin:0 0 6px;"></p>
+            <p id="modal-desc" style="font-size:13px;color:#060606;margin:0 0 20px;line-height:1.5;"></p>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button onclick="fecharModal()" style="background:#fff;border:1px solid #dde2e8;color:#64748b;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;cursor:pointer;">Cancelar</button>
+                <a id="modal-confirm-link" href="#" style="background:#ef4444;color:#fff;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;text-decoration:none;">Excluir</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

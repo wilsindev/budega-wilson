@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
+    <script src="../js/modal.js" defer></script>
     <title>Loja do Wilson - Categorias</title>
     <style>
         * { font-family: 'Geist', system-ui, sans-serif; }
@@ -295,7 +296,7 @@
                 <span class="text-[11px] page-info">Página <?php echo $page ?></span>
                 <div class="flex gap-1.5">
                     <?php if ($page - 1 > 0): ?>
-                    <a href="index.php?pagina=<?php echo $page - 1 ?>"
+                    <a href="categorias.php?pagina=<?php echo $page - 1 ?>"
                        class="page-btn flex justify-center items-center w-8 h-8 rounded-lg text-sm transition-colors">
                         <i class="fa-solid fa-chevron-left text-[10px]"></i>
                     </a>
@@ -303,7 +304,7 @@
                     <span class="page-current flex justify-center items-center w-8 h-8 rounded-lg text-white text-[13px] font-semibold">
                         <?php echo $page ?>
                     </span>
-                    <a href="index.php?pagina=<?php echo $page + 1 ?>"
+                    <a href="categorias.php?pagina=<?php echo $page + 1 ?>"
                        class="page-btn flex justify-center items-center w-8 h-8 rounded-lg text-sm transition-colors">
                         <i class="fa-solid fa-chevron-right text-[10px]"></i>
                     </a>
@@ -312,5 +313,18 @@
 
         </div>
     </main>
+    <div id="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.35); z-index:50; align-items:center; justify-content:center;">
+        <div style="background:#fff; border:1px solid #e8ecf0; border-radius:16px; padding:28px; width:100%; max-width:380px; font-family:'Geist',system-ui,sans-serif;">
+            <div style="width:40px;height:40px;background:#fff5f5;border:1px solid #fecaca;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#ef4444;margin-bottom:14px;">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <p id="modal-title" style="font-size:15px;font-weight:600;color:#1e293b;margin:0 0 6px;"></p>
+            <p id="modal-desc" style="font-size:13px;color:#060606;margin:0 0 20px;line-height:1.5;"></p>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button onclick="fecharModal()" style="background:#fff;border:1px solid #dde2e8;color:#64748b;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;cursor:pointer;">Cancelar</button>
+                <a id="modal-confirm-link" href="#" style="background:#ef4444;color:#fff;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;text-decoration:none;">Excluir</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

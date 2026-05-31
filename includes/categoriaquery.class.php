@@ -82,6 +82,7 @@
                 $query = $this->pdo->prepare("DELETE FROM categorias WHERE id = :id");
                 $query->bindValue(":id", $categoriaID);
                 $query->execute();
+                return true;
             }
             catch(PDOException $e){
                 if($e->getCode() == 23000){
