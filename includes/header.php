@@ -19,7 +19,8 @@
                         'dashboard.php' => ['href' => '../pages_produtos/dashboard.php', 'nome' => 'Dashboard'],
                         'produtos.php'  => ['href' => '../pages_produtos/produtos.php',   'nome' => 'Produtos'],
                         'categorias.php'=> ['href' => '../pages_categorias/categorias.php','nome' => 'Categorias'],
-                        'clientes.php' => ['href' => '../pages_clientes/clientes.php', 'nome' => 'Clientes']
+                        'clientes.php' => ['href' => '../pages_clientes/clientes.php', 'nome' => 'Clientes'],
+                        'vendas.php' => ['href' => '../pages_vendas/vendas.php', 'nome' => 'Vendas'],
 
                 ];
                 ?>
@@ -40,7 +41,7 @@
                 <!-- User avatar -->
                 <button class="flex items-center gap-2 pl-1 pr-2.5 py-1 rounded-lg hover:bg-slate-100 transition-colors group" onclick="document.getElementById('user-menu').classList.toggle('hidden')">
                     <div class="w-6 h-6 rounded-full bg-indigo-100 border border-indigo-200 flex items-center justify-center shrink-0">
-                        <img src="../assets/avatar_user.jpg" alt="" class="rounded-full">
+                        <img src="../assets/avatar_user.webp" alt="" class="rounded-full">
                     </div>
                     <span class="hidden sm:block text-[13px] font-medium text-slate-600 group-hover:text-slate-800 transition-colors">
                         <?php 
