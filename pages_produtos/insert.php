@@ -55,36 +55,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="../js/select.js" defer></script>
+    <link rel="stylesheet" href="../css/index.css">
     
     <title>Loja do Wilson - Cadastro de Produto</title>
 </head>
-<style>
-.select2-container .select2-selection--single {
-    height: 40px;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    padding: 4px 8px;
-}
-
-/* Texto selecionado */
-.select2-container .select2-selection--single .select2-selection__rendered {
-    color: #060606;
-    font-size: 14px;
-    line-height: 32px;
-}
-
-/* Dropdown */
-.select2-dropdown {
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-
-/* Opção com hover */
-.select2-results__option--highlighted {
-    background-color: #818cf8 !important;
-}
-</style>
 <body class="bg-[#f4f6f9] w-full min-h-screen">
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="flex flex-col items-center justify-center w-full min-h-screen py-10">

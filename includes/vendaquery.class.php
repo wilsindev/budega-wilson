@@ -61,20 +61,11 @@
             $produtosVenda = $query->fetchAll(PDO::FETCH_OBJ);
             return $produtosVenda;
         }
-   
-
-
-        public function searchProdutosNome($nome){
-            $nomePesquisar = "%" . $nome . "%";
-            $query = $this->pdo->prepare("SELECT p.*, c.nome AS categoria FROM produtos p JOIN categorias c ON p.categoria_id = c.id 
-            WHERE p.nome LIKE :nome");
-            $query->bindValue(":nome", $nomePesquisar);
-            $query->execute();
-            $produtos = $query->fetchAll(PDO::FETCH_OBJ);
-            return $produtos;
+        public function totalVendas(){
+            $query = $this->pdo->query("SELECT IFNULL(SUM(total), 0) AS total FROM vendas");
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            return $resultado->total;
         }
-
-
         // Delete
 
         public function cancelarVenda($vendaId){

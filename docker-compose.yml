@@ -57,6 +57,10 @@ services:
         depends_on:
             - mysql
 
+        # timezone: define fuso horário do container para GMT-3 (Brasil)
+        environment:
+            TZ: America/Sao_Paulo
+
         # networks: conecta este serviço à nossa rede interna privada
         networks:
             - rede_lojaWilson
@@ -74,6 +78,8 @@ services:
         # environment: variáveis de ambiente que o MySQL lê ao inicializar
         # É como passar configurações sem precisar editar arquivos internos.
         environment:
+            TZ: America/Sao_Paulo
+
             # Senha do superusuário "root" (administrador do banco)
             MYSQL_ROOT_PASSWORD: senha_root_123
 
@@ -135,6 +141,8 @@ services:
         container_name: lojaWilson_phpmyadmin
 
         environment:
+            TZ: America/Sao_Paulo
+
             # Diz ao phpMyAdmin onde fica o MySQL (usamos o nome do serviço!)
             # Dentro da rede Docker, os serviços se comunicam pelo nome, não por IP.
             PMA_HOST: mysql

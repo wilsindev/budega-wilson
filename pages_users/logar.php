@@ -34,47 +34,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
     <title>Loja do Wilson — Login</title>
-    <style>
-        * { font-family: 'Geist', system-ui, sans-serif; }
-        body { background-color: #f4f6f9; }
-        .card {
-            background: #ffffff;
-            border: 1px solid #e8ecf0;
-            box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 8px 24px rgba(15,23,42,0.05);
-            animation: fadein 0.3s ease;
-        }
-        @keyframes fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-        .field {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            color: #1e293b;
-            font-size: 13px;
-            border-radius: 8px;
-            padding: 10px 14px;
-            width: 100%;
-            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-        }
-        .field::placeholder { color: #94a3b8; }
-        .field:focus {
-            outline: none;
-            border-color: #818cf8;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(129,140,248,0.15);
-        }
-        .btn-primary {
-            background: #4f46e5;
-            box-shadow: 0 1px 3px rgba(79,70,229,0.25), 0 1px 0 rgba(255,255,255,0.1) inset;
-            transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
-        }
-        .btn-primary:hover { background: #4338ca; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
-        .btn-primary:active { transform: translateY(0); }
-        .divider { height: 1px; background: #e8ecf0; }
-        label { font-size: 11px; font-weight: 600; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase; }
-    </style>
+
 </head>
 <body class="w-full min-h-screen flex items-center justify-center py-10 px-4">
     <div class="card rounded-2xl p-8 w-full max-w-md flex flex-col gap-6">

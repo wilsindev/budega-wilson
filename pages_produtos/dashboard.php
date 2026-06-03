@@ -3,15 +3,17 @@ require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ . '/../includes/produtoquery.class.php';
 require_once __DIR__ . '/../includes/clientequery.class.php';
 require_once __DIR__ . '/../includes/categoriaquery.class.php';
+require_once __DIR__ . '/../includes/vendaquery.class.php';
 require_once __DIR__ . '/../config/conexao.php';
 
 $queryProduto = new ProdutoQuery($pdo);
 $queryCliente = new ClienteQuery($pdo);
 $queryCategoria = new CategoriaQuery($pdo);
-
+$queryVenda = new VendaQuery($pdo);
 $totalProdutos = $queryProduto->contarProdutos();
 $totalCategorias = $queryCategoria->contarCategorias();
 $totalClientes = $queryCliente->contarClientes();
+$totalVendas = $queryVenda->totalVendas();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -21,28 +23,11 @@ $totalClientes = $queryCliente->contarClientes();
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="../js/counter.js" defer></script>
     <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
     <title>Loja do Wilson — Dashboard</title>
-    <style>
-        * { font-family: 'Geist', system-ui, sans-serif; }
-        body { background-color: #f4f6f9; }
 
-        .card {
-            background: #ffffff;
-            border: 1px solid #e8ecf0;
-            box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 8px 24px rgba(15,23,42,0.05);
-            animation: fadein 0.3s ease;
-        }
-        @keyframes fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-
-        .divider { height: 1px; background: #e8ecf0; }
-
-        .stat-icon {
-            width: 40px; height: 40px;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-        }
-    </style>
 </head>
 <body class="text-slate-700 w-full min-h-screen">
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -56,7 +41,7 @@ $totalClientes = $queryCliente->contarClientes();
             </div>
 
             <!-- Cards de estatísticas -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
 
                 <!-- Produtos -->
                 <div class="card rounded-2xl p-6 flex flex-col gap-4">
@@ -67,8 +52,8 @@ $totalClientes = $queryCliente->contarClientes();
                         </div>
                     </div>
                     <div>
-                        <span class="text-[32px] font-semibold text-slate-800 leading-none">
-                            <?php echo htmlspecialchars($totalProdutos); ?>
+                        <span class="counter text-[30px] font-semibold text-slate-800 leading-none" data-target="<?php echo htmlspecialchars($totalProdutos); ?>">
+                            0
                         </span>
                         <p class="text-[12px] text-slate-400 mt-1">cadastrados no sistema</p>
                     </div>
@@ -87,8 +72,8 @@ $totalClientes = $queryCliente->contarClientes();
                         </div>
                     </div>
                     <div>
-                        <span class="text-[32px] font-semibold text-slate-800 leading-none">
-                            <?php echo htmlspecialchars($totalCategorias); ?>
+                        <span class="text-[30px] font-semibold text-slate-800 leading-none counter" data-target=" <?= htmlspecialchars($totalCategorias) ?>">
+                            0
                         </span>
                         <p class="text-[12px] text-slate-400 mt-1">categorias distintas</p>
                     </div>
@@ -107,14 +92,34 @@ $totalClientes = $queryCliente->contarClientes();
                         </div>
                     </div>
                     <div>
-                        <span class="text-[32px] font-semibold text-slate-800 leading-none">
-                            <?php echo htmlspecialchars($totalClientes); ?>
+                        <span class="counter text-[32px] font-semibold text-slate-800 leading-none" data-target="<?php echo htmlspecialchars($totalClientes); ?>">
+                            0
                         </span>
                         <p class="text-[12px] text-slate-400 mt-1">clientes cadastrados</p>
                     </div>
                     <div class="divider"></div>
                     <a href="../pages_clientes/clientes.php" class="text-[12px] text-violet-500 hover:text-violet-700 transition-colors flex items-center gap-1">
                         Ver clientes <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+                <!-- Vendas -->
+                <div class="card rounded-2xl p-6 flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[12px] font-semibold text-slate-400 uppercase tracking-widest">Total</span>
+                        <div class="stat-icon bg-violet-50">
+                            <i class="fa-solid fa-money-bill text-pink-500 text-[14px]"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="counter text-[25px] font-semibold text-slate-800 leading-none" data-target="<?php echo htmlspecialchars($totalVendas); ?>" data-decimal="true">
+                            0
+                        </span>
+                        <span class="text-[25px] font-semibold text-slate-800 leading-none"> R$</span>
+                        <p class="text-[12px] text-slate-400 mt-1">de lucro</p>
+                    </div>
+                    <div class="divider"></div>
+                    <a href="../pages_vendas/vendas.php" class="text-[12px] text-pink-500 hover:text-pink-700 transition-colors flex items-center gap-1">
+                        Ver vendas <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
                 </div>
 
@@ -148,6 +153,16 @@ $totalClientes = $queryCliente->contarClientes();
                     <div class="w-1/2 flex flex-col justify-center px-3">
                         <span class="text-[9px] text-slate-400 tracking-[0.15em] uppercase">Novo</span>
                         <span class="text-[12px] text-slate-700 font-medium">Cliente</span>
+                    </div>
+                </a>
+                <a href="../pages_clientes/clientes.php" class="group relative h-20 w-40 bg-white border border-slate-200 hover:border-pink-400 rounded-2xl overflow-hidden flex flex-row transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                    <div class="absolute top-0 left-0 right-0 h-[2px] text-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-1/2 flex-shrink-0 flex items-center justify-center bg-violet-50">
+                        <i class="fa-solid fa-plus text-pink-500 text-[13px]"></i>
+                    </div>
+                    <div class="w-1/2 flex flex-col justify-center px-3">
+                        <span class="text-[9px] text-slate-400 tracking-[0.15em] uppercase">Nova</span>
+                        <span class="text-[12px] text-slate-700 font-medium">Venda</span>
                     </div>
                 </a>
             </div>

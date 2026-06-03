@@ -40,6 +40,13 @@
             $resultado = $query->fetch(PDO::FETCH_OBJ);
             return $resultado->total;
         }
+        public function contarProdutosPorCategoria($categoriaId){
+            $query = $this->pdo->prepare("SELECT COUNT(*) AS total FROM produtos WHERE categoria_id = :categoria_id");
+            $query->bindValue(":categoria_id", $categoriaId);
+            $query->execute();
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            return $resultado->total;
+        }
         //  Lista TODAS as categorias no DB
         // Pega as categorias que estão no DB.
         public function listarCategorias($limite, $offset){
@@ -56,6 +63,7 @@
             $categorias = $query->fetchAll(PDO::FETCH_OBJ);
             return $categorias;
         }
+
         public function buscarCategoriaPorNome($nome){
             $query = $this->pdo->prepare("SELECT * FROM categorias WHERE nome LIKE :nome");
             $query->bindValue(":nome", "%$nome%");

@@ -4,7 +4,7 @@
     require_once __DIR__ . '/../includes/clientequery.class.php';
     require_once __DIR__ . '/../config/conexao.php';
     $page = $_GET['pagina'] ?? 1;
-    $limitPerPage = 5;
+    $limitPerPage = 10;
     $offset = ($page - 1) * $limitPerPage;
     $query = new ClienteQuery($pdo);
 ?>
@@ -22,185 +22,8 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="../js/select.js" defer></script>
     <script src="../js/modal.js" defer></script>
+    <link rel="stylesheet" href="../css/index.css">
     <title>Loja do Wilson - Clientes</title>
-    <style>
-        * { font-family: 'Geist', system-ui, sans-serif; }
-        code, .mono { font-family: 'Geist Mono', monospace; }
-
-
-        main { position: relative; z-index: 1; }
-
-        /* Card */
-        .card-glow {
-            background: #ffffff;
-            border: 1px solid #e8ecf0;
-            box-shadow:
-                0 1px 3px rgba(15,23,42,0.06),
-                0 8px 24px rgba(15,23,42,0.05);
-        }
-
-        /* Header text */
-        .brand-text {
-            color: #1e293b;
-        }
-
-        /* Table row hover */
-        tr.data-row { transition: background 0.12s ease; }
-        tr.data-row:hover { background: #f0f4ff; }
-        tr.data-row:hover td:first-child { border-left: 2px solid #818cf8; padding-left: 14px; }
-        tr.data-row td:first-child { border-left: 2px solid transparent; transition: border-color 0.12s, padding 0.12s; }
-
-        /* Input focus ring */
-        .field:focus {
-            outline: none;
-            border-color: #818cf8;
-            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.15);
-        }
-
-        /* Divider */
-        .divider {
-            height: 1px;
-            background: #e8ecf0;
-        }
-
-        /* Btn add */
-        .btn-add {
-            background: #4f46e5;
-            box-shadow: 0 1px 3px rgba(79,70,229,0.25), 0 1px 0 rgba(255,255,255,0.1) inset;
-            transition: filter 0.15s, transform 0.1s, box-shadow 0.15s;
-        }
-        .btn-add:hover {
-            background: #4338ca;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(79,70,229,0.3);
-        }
-        .btn-add:active { transform: translateY(0); }
-
-        /* Secondary button */
-        .btn-secondary {
-            background: #ffffff;
-            border: 1px solid #dde2e8;
-            color: #64748b;
-            transition: background 0.12s, border-color 0.12s, color 0.12s;
-        }
-        .btn-secondary:hover {
-            background: #eef0fe;
-            border-color: #818cf8;
-            color: #4f46e5;
-        }
-
-        /* Delete/Edit action buttons */
-        .action-del {
-            background: #fff5f5;
-            border: 1px solid #fecaca;
-            color: #ef4444;
-            transition: all 0.12s;
-        }
-        .action-del:hover {
-            background: #fee2e2;
-            border-color: #f87171;
-            color: #dc2626;
-        }
-
-        .action-edit {
-            background: #fffbeb;
-            border: 1px solid #fde68a;
-            color: #d97706;
-            transition: all 0.12s;
-        }
-        .action-edit:hover {
-            background: #fef3c7;
-            border-color: #fbbf24;
-            color: #b45309;
-        }
-
-        /* Pagination */
-        .page-current {
-            background: #4f46e5;
-            color: #fff;
-            box-shadow: 0 2px 6px rgba(79,70,229,0.3);
-        }
-        .page-btn {
-            background: #ffffff;
-            border: 1px solid #dde2e8;
-            color: #64748b;
-            transition: all 0.12s;
-        }
-        .page-btn:hover {
-            background: #eef0fe;
-            border-color: #818cf8;
-            color: #4f46e5;
-        }
-
-        /* Category badge */
-        .badge-cat {
-            background: #eef2ff;
-            border: 1px solid #c7d2fe;
-            
-        }
-
-        /* ID badge */
-        .badge-id {
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-        }
-
-        /* Price */
-        .price-val { color: #059669; }
-
-        /* TH */
-        thead th {
-            background: #f8fafc;
-            font-size: 10px;
-            letter-spacing: 0.08em;
-            color: #94a3b8;
-            font-weight: 600;
-            text-transform: uppercase;
-            border-bottom: 1px solid #e8ecf0;
-        }
-
-        /* Fade-in on load */
-        .card-glow { animation: fadein 0.3s ease; }
-        @keyframes fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-
-        /* Select arrow override */
-        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8l3.5-3.5' stroke='%2394a3b8' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 32px !important; }
-
-        /* Table border */
-        .table-wrap { border: 1px solid #e8ecf0; }
-        tr.data-row { border-top: 1px solid #f1f5f9; }
-
-        /* Page info text */
-        .page-info { color: #94a3b8; }
-
-        /* Subtitle text */
-        .subtitle { color: #94a3b8; }
-        .select2-container .select2-selection--single {
-            height: 40px;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            padding: 4px 8px;
-        }
-
-        /* Texto selecionado */
-        .select2-container .select2-selection--single .select2-selection__rendered {
-            color: #060606;
-            font-size: 14px;
-            line-height: 32px;
-        }
-
-        /* Dropdown */
-        .select2-dropdown {
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        /* Opção com hover */
-        .select2-results__option--highlighted {
-            background-color: #818cf8 !important;
-        }
-    </style>
 </head>
 <body class="bg-[#f4f6f9] text-slate-700 w-full min-h-screen">
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -225,11 +48,11 @@
             <!-- Controles !-->
             <div class="flex justify-between flex-wrap gap-2.5">
                 <form action="" method="get" class="flex gap-2 items-center">
-                    <div class="relative">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[11px] pointer-events-none"></i>
+                    <div class="flex items-center bg-white border border-slate-200 rounded-lg px-3 gap-2 w-52">
+                        <i class="fa-solid fa-magnifying-glass text-slate-400 text-[11px] pointer-events-none"></i>
                         <input type="text" name="q"
-                               class="field bg-white border border-slate-200 text-[#060606] placeholder-slate-400 text-[13px] rounded-lg pl-8 pr-3 py-2 w-52"
-                               placeholder="Pesquisar por nome…">
+                            class="bg-transparent text-[#060606] placeholder-slate-400 text-[13px] py-2 outline-none w-full"
+                            placeholder="Pesquisar por nome…">
                     </div>
                     <button type="submit" class="btn-secondary flex items-center justify-center w-9 h-9 rounded-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-right text-[11px]"></i>

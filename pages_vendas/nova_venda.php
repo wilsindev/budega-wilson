@@ -45,6 +45,7 @@
     <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script defer src="../js/select.js"></script>
+    <link rel="stylesheet" href="../css/index.css">
     <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
     <title>Loja do Wilson - Nova Venda</title>
     <style>

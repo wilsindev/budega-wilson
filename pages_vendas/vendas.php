@@ -18,54 +18,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
     <script src="../js/modal.js" defer></script>
+    <link rel="stylesheet" href="../css/index.css">
     <title>Loja do Wilson - Vendas</title>
-    <style>
-        * { font-family: 'Geist', system-ui, sans-serif; }
-        code, .mono { font-family: 'Geist Mono', monospace; }
-        main { position: relative; z-index: 1; }
-        .card-glow {
-            background: #ffffff;
-            border: 1px solid #e8ecf0;
-            box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 8px 24px rgba(15,23,42,0.05);
-        }
-        .brand-text { color: #1e293b; }
-        tr.data-row { transition: background 0.12s ease; }
-        tr.data-row:hover { background: #f0f4ff; }
-        tr.data-row:hover td:first-child { border-left: 2px solid #818cf8; padding-left: 14px; }
-        tr.data-row td:first-child { border-left: 2px solid transparent; transition: border-color 0.12s, padding 0.12s; }
-        .divider { height: 1px; background: #e8ecf0; }
-        .btn-add {
-            background: #4f46e5;
-            box-shadow: 0 1px 3px rgba(79,70,229,0.25), 0 1px 0 rgba(255,255,255,0.1) inset;
-            transition: filter 0.15s, transform 0.1s, box-shadow 0.15s;
-        }
-        .btn-add:hover { background: #4338ca; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
-        .btn-add:active { transform: translateY(0); }
-        .action-del {
-            background: #fff5f5; border: 1px solid #fecaca; color: #ef4444; transition: all 0.12s;
-        }
-        .action-del:hover { background: #fee2e2; border-color: #f87171; color: #dc2626; }
-        .action-view {
-            background: #eff6ff; border: 1px solid #bfdbfe; color: #3b82f6; transition: all 0.12s;
-        }
-        .action-view:hover { background: #dbeafe; border-color: #93c5fd; color: #2563eb; }
-        .page-current { background: #4f46e5; color: #fff; box-shadow: 0 2px 6px rgba(79,70,229,0.3); }
-        .page-btn { background: #ffffff; border: 1px solid #dde2e8; color: #64748b; transition: all 0.12s; }
-        .page-btn:hover { background: #eef0fe; border-color: #818cf8; color: #4f46e5; }
-        .badge-id { background: #f1f5f9; border: 1px solid #e2e8f0; }
-        .badge-cliente { background: #eef2ff; border: 1px solid #c7d2fe; }
-        .badge-anonimo { background: #f8fafc; border: 1px solid #e2e8f0; color: #94a3b8; }
-        thead th {
-            background: #f8fafc; font-size: 10px; letter-spacing: 0.08em;
-            color: #94a3b8; font-weight: 600; text-transform: uppercase; border-bottom: 1px solid #e8ecf0;
-        }
-        .card-glow { animation: fadein 0.3s ease; }
-        @keyframes fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-        .table-wrap { border: 1px solid #e8ecf0; }
-        tr.data-row { border-top: 1px solid #f1f5f9; }
-        .page-info { color: #94a3b8; }
-        .price-val { color: #059669; }
-    </style>
 </head>
 <body class="bg-[#f4f6f9] text-slate-700 w-full min-h-screen">
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -129,7 +83,7 @@
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
                                     <?php if($_SESSION['is_admin'] === 1): ?>
-                                    <button onclick="abrirModal('venda', '#<?= $venda->id ?>', 'cancelar.php?id=<?= $venda->id ?>')"
+                                    <button onclick="abrirModal('venda', '#<?= $venda->id ?>', 'excluir.php?id=<?= $venda->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Cancelar
                                     </button>
