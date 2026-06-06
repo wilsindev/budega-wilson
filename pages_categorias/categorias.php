@@ -75,6 +75,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php if($totalCategorias < 1): ?>
+                        ?>
+                        <tr>
+                            <td colspan="5" class="px-4 py-8 text-center text-[13px] text-slate-400">Nenhuma categoria cadastrada.</td>
+                        </tr>
+                        <?php endif; ?>
                         <?php if(!empty($_GET['q'])):
                             $nome = $_GET['q'];
                             $categoriasAchadas = $query->buscarCategoriaPorNome($nome);
@@ -88,7 +94,7 @@
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <button onclick="abrirModal('produto', '<?php echo addslashes(htmlspecialchars($categoriaAchada->nome)) ?>', 'excluir.php?id=<?php echo $categoriaAchada->id ?>')"
+                                    <button onclick="abrirModal('categoria', '<?php echo addslashes(htmlspecialchars($categoriaAchada->nome)) ?>', 'excluir.php?id=<?php echo $categoriaAchada->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
                                     </button>

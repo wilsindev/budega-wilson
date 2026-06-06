@@ -76,7 +76,12 @@
                         </tr>
                     </thead>
                     <tbody>
-
+                        <?php if($totalClientes < 1): ?>
+                        ?>
+                        <tr>
+                            <td colspan="5" class="px-4 py-8 text-center text-[13px] text-slate-400">Nenhuma cliente cadastrado.</td>
+                        </tr>
+                        <?php endif; ?>
                         <?php if(!empty($_GET['q'])):
                             $pesquisa = $_GET['q'];
                             $clientesAchados = $query->buscarClientePorNome($pesquisa);

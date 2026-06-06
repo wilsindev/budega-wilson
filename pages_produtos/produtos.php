@@ -92,7 +92,11 @@
                         </tr>
                     </thead>
                     <tbody>
-
+                        <?php if($totalProdutos < 1): ?>
+                        <tr>
+                            <td colspan="5" class="px-4 py-8 text-center text-[13px] text-slate-400">Nenhuma produto cadastrado.</td>
+                        </tr>
+                        <?php endif; ?>
                         <?php if(empty($_GET['filtrar']) && !empty($_GET['q'])):
                             $pesquisa = $_GET['q'];
                             $produtosAchados = $query->searchProdutosNome($pesquisa);
