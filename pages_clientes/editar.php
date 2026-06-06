@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="flex flex-col gap-1.5">
                     <label for="nome" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Nome</label>
                     <input type="text" id="nome" name="nome"
-                           value="<?php echo $cliente->nome ?>" required
+                           value="<?php echo htmlspecialchars($cliente->nome) ?>" required
                            class="bg-slate-50 border border-slate-200 text-slate-700 text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
                                   focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
                                   placeholder-slate-300">
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="flex flex-col gap-1.5" x-data>
                     <label for="cpf" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">CPF</label>
                     <input x-mask="999.999.999-99" type="text" id="cpf" name="cpf"
-                           value="<?php echo $cliente->cpf ?>" required
+                           value="<?php echo htmlspecialchars($cliente->cpf) ?>" required
                            class="bg-slate-50 border border-slate-200 text-[#060606] text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
                                   focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
                                   placeholder-slate-300">
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="flex flex-col gap-1.5" x-data>
                     <label for="telefone" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Telefone</label>
                     <input x-mask="(99) 99999-9999" type="text" id="telefone" name="telefone"
-                           value="<?php echo $cliente->telefone ?>" required
+                           value="<?php echo htmlspecialchars($cliente->telefone) ?>" required
                            class="bg-slate-50 border border-slate-200 text-[#060606] text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
                                   focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
                                   placeholder-slate-300">

@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="flex flex-col gap-1.5">
                     <label for="nome" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Nome</label>
                     <input type="text" id="nome" name="nome"
-                           value="<?php echo $categoria->nome ?>" required
+                           value="<?php echo htmlspecialchars($categoria->nome) ?>" required
                            class="bg-slate-50 border border-slate-200 text-slate-700 text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
                                   focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
                                   placeholder-slate-300">
