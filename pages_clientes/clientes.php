@@ -82,13 +82,13 @@
                             $clientesAchados = $query->buscarClientePorNome($pesquisa);
                             foreach($clientesAchados as $clienteAchado): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $clienteAchado->nome ?></td>
-                            <td class="px-4 py-3.5 text-[13px] price-val font-medium mono whitespace-nowrap"><?php echo $clienteAchado->cpf ?></td>
-                            <td class="px-4 py-3.5 text-[13px] price-val font-medium mono whitespace-nowrap"><?php echo $clienteAchado->telefone ?></td>
+                            <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo htmlspecialchars($clienteAchado->nome) ?></td>
+                            <td class="px-4 py-3.5 text-[13px] price-val font-medium mono whitespace-nowrap"><?php echo htmlspecialchars($clienteAchado->cpf) ?></td>
+                            <td class="px-4 py-3.5 text-[13px] price-val font-medium mono whitespace-nowrap"><?php echo htmlspecialchars($clienteAchado->telefone) ?></td>
                             <?php if($_SESSION['is_admin'] === 1): ?>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <button onclick="abrirModal('cliente', '<?php echo $clienteAchado->nome ?>', 'excluir.php?id=<?php echo $clienteAchado->id ?>')"
+                                    <button onclick="abrirModal('cliente', '<?php echo addslashes(htmlspecialchars($clienteAchado->nome)) ?>', 'excluir.php?id=<?php echo $clienteAchado->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
                                     </button>
@@ -106,13 +106,13 @@
                             $clientes = $query->listarClientes($limitPerPage, $offset);
                             foreach($clientes as $cliente): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $cliente->nome ?></td>
-                            <td class="px-4 py-3.5 text-[13px] price-val font-medium mono whitespace-nowrap"><?php echo $cliente->cpf ?></td>
-                            <td class="px-4 py-3.5 text-[13px] price-val font-medium mono whitespace-nowrap"><?php echo $cliente->telefone ?></td>
+                            <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo htmlspecialchars($cliente->nome) ?></td>
+                            <td class="px-4 py-3.5 text-[13px] price-val font-medium mono whitespace-nowrap"><?php echo htmlspecialchars($cliente->cpf) ?></td>
+                            <td class="px-4 py-3.5 text-[13px] price-val font-medium mono whitespace-nowrap"><?php echo htmlspecialchars($cliente->telefone) ?></td>
                             <?php if($_SESSION['is_admin'] === 1): ?>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <button onclick="abrirModal('cliente', '<?php echo $cliente->nome ?>', 'excluir.php?id=<?php echo $cliente->id ?>')"
+                                    <button onclick="abrirModal('cliente', '<?php echo addslashes(htmlspecialchars($cliente->nome)) ?>', 'excluir.php?id=<?php echo $cliente->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
                                     </button>

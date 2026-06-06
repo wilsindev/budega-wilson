@@ -50,56 +50,6 @@
     <link rel="stylesheet" href="../css/index.css">
     <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
     <title>Loja do Wilson - Nova Venda</title>
-    <style>
-        * { font-family: 'Geist', system-ui, sans-serif; }
-        body { background-color: #f4f6f9; }
-        .card {
-            background: #ffffff;
-            border: 1px solid #e8ecf0;
-            box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 8px 24px rgba(15,23,42,0.05);
-        }
-        .field {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            color: #1e293b;
-            font-size: 13px;
-            border-radius: 8px;
-            padding: 10px 14px;
-            width: 100%;
-            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-        }
-        .field:focus {
-            outline: none;
-            border-color: #818cf8;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(129,140,248,0.15);
-        }
-        .field::placeholder { color: #94a3b8; }
-        .divider { height: 1px; background: #e8ecf0; }
-        .produto-card {
-            background: #fff;
-            border: 1px solid #e8ecf0;
-            border-radius: 10px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            transition: border-color 0.12s, box-shadow 0.12s;
-            cursor: pointer;
-        }
-        .produto-card:hover { border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129,140,248,0.1); }
-        .btn-primary {
-            background: #4f46e5;
-            box-shadow: 0 1px 3px rgba(79,70,229,0.25), 0 1px 0 rgba(255,255,255,0.1) inset;
-            transition: background 0.15s, transform 0.1s;
-        }
-        .btn-primary:hover { background: #4338ca; transform: translateY(-1px); }
-        .btn-primary:active { transform: translateY(0); }
-        .item-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
-        .badge-desc { background: #dcfce7; border: 1px solid #86efac; color: #166534; font-size: 11px; padding: 2px 8px; border-radius: 20px; }
-        label { font-size: 11px; font-weight: 600; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase; }
-    </style>
 </head>
 <body class="w-full min-h-screen">
     <?php include __DIR__ . '/../includes/header.php'; ?>

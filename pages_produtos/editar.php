@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="flex flex-col gap-1.5">
                     <label for="nome" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Nome</label>
                     <input type="text" id="nome" name="nome"
-                           value="<?php echo $produto->nome ?>" required
+                           value="<?php echo htmlspecialchars($produto->nome) ?>" required
                            class="bg-slate-50 border border-slate-200 text-slate-700 text-[13px] rounded-lg px-4 py-2.5 w-full transition-shadow
                                   focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
                                   placeholder-slate-300">
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="relative">
                         <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[13px] text-[#060606] font-medium select-none">R$</span>
                         <input type="number" id="preco" name="preco" step="0.01"
-                               value="<?php echo $produto->preco ?>" required
+                               value="<?php echo htmlspecialchars($produto->preco) ?>" required
                                class="bg-slate-50 border border-slate-200 text-[#060606] text-[13px] rounded-lg pl-10 pr-4 py-2.5 w-full transition-shadow
                                       focus:outline-none focus:border-indigo-400 focus:bg-white focus:shadow-[0_0_0_3px_rgba(129,140,248,0.15)]
                                       [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none

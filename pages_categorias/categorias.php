@@ -80,7 +80,7 @@
                             $categoriasAchadas = $query->buscarCategoriaPorNome($nome);
                             foreach($categoriasAchadas as $categoriaAchada): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $categoriaAchada->nome ?></td>
+                            <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo htmlspecialchars($categoriaAchada->nome) ?></td>
                             <td class="px-4 py-3.5">
                                 <span class="badge-cat rounded-full px-2.5 py-0.5 text-[11px]  font-medium">
                                     <?php echo $query->contarProdutosPorCategoria($categoriaAchada->id) ?>
@@ -88,7 +88,7 @@
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <button onclick="abrirModal('produto', '<?php echo $categoriaAchada->nome ?>', 'excluir.php?id=<?php echo $categoriaAchada->id ?>')"
+                                    <button onclick="abrirModal('produto', '<?php echo addslashes(htmlspecialchars($categoriaAchada->nome)) ?>', 'excluir.php?id=<?php echo $categoriaAchada->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
                                     </button>
@@ -105,7 +105,7 @@
                             $categorias = $query->listarCategorias($limitPerPage, $offset);
                             foreach($categorias as $categoria): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal"><?php echo $categoria->nome ?></td>
+                            <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal"><?php echo htmlspecialchars($categoria->nome) ?></td>
                             <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal">
                                 <span class="badge-cat rounded-full px-2.5 py-0.5 text-[11px]  font-medium">
                                         <?php echo $query->contarProdutosPorCategoria($categoria->id) ?>
@@ -113,7 +113,7 @@
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <button onclick="abrirModal('categoria', '<?php echo $categoria->nome ?>', 'excluir.php?id=<?php echo $categoria->id ?>')"
+                                    <button onclick="abrirModal('categoria', '<?php echo addslashes(htmlspecialchars($categoria->nome)) ?>', 'excluir.php?id=<?php echo $categoria->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
                                     </button>

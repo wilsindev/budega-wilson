@@ -59,7 +59,7 @@
                         <?php 
                             $categorias = $categoriaQuery->getCategorias();
                             foreach($categorias as $categoria){ ?>
-                        <option value="<?php echo $categoria->id ?>"><?= $categoria->nome ?></option>
+                        <option value="<?php echo $categoria->id ?>"><?= htmlspecialchars($categoria->nome) ?></option>
                         <?php } ?>
                     </select>
                     <button type="submit" class="btn-secondary flex items-center justify-center w-9 h-9 rounded-lg cursor-pointer">
@@ -98,16 +98,16 @@
                             $produtosAchados = $query->searchProdutosNome($pesquisa);
                             foreach($produtosAchados as $produtoAchado): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $produtoAchado->nome ?></td>
+                            <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo htmlspecialchars($produtoAchado->nome) ?></td>
                             <td class="px-4 py-3.5 text-[13px] price-val font-medium mono"><?php echo number_format($produtoAchado->preco, 2, ',', '.') ?></td>
                             <td class="px-4 py-3.5">
                                 <span class="badge-cat whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px]  font-medium">
-                                    <?php echo $produtoAchado->categoria ?>
+                                    <?php echo htmlspecialchars($produtoAchado->categoria) ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <button onclick="abrirModal('produto', '<?php echo $produtoAchado->nome ?>', 'excluir.php?id=<?php echo $produtoAchado->id ?>')"
+                                    <button onclick="abrirModal('produto', '<?php echo addslashes(htmlspecialchars($produtoAchado->nome)) ?>', 'excluir.php?id=<?php echo $produtoAchado->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
                                     </button>
@@ -125,16 +125,16 @@
                             $produtosFiltrados = $query->filtrarProdutosCategoria($filtro);
                             foreach($produtosFiltrados as $produtoFiltrado): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $produtoFiltrado->nome ?></td>
+                            <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo htmlspecialchars($produtoFiltrado->nome) ?></td>
                             <td class="px-4 py-3.5 text-[13px] price-val font-medium mono"><?php echo number_format($produtoFiltrado->preco, 2, ',', '.') ?></td>
                             <td class="px-4 py-3.5">
                                 <span class="badge-cat whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px] font-medium">
-                                    <?php echo $produtoFiltrado->categoria ?>
+                                    <?php echo htmlspecialchars($produtoFiltrado->categoria) ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <button onclick="abrirModal('produto', '<?php echo $produtoFiltrado->nome ?>', 'excluir.php?id=<?php echo $produtoFiltrado->id ?>')"
+                                    <button onclick="abrirModal('produto', '<?= addslashes(htmlspecialchars($produtoFiltrado->nome)) ?>', 'excluir.php?id=<?php echo $produtoFiltrado->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
                                     </button>
@@ -151,16 +151,16 @@
                             $produtos = $query->listarProdutos($limitPerPage, $offset);
                             foreach($produtos as $produto): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal"><?php echo $produto->nome ?></td>
+                            <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal"><?php echo htmlspecialchars($produto->nome) ?></td>
                             <td class="px-4 py-3.5 text-[13px] text-[#060606] price-val font-medium mono"><?php echo number_format($produto->preco, 2, ',', '.') ?></td>
                             <td class="px-4 py-3.5">
                                 <span class="badge-cat whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px]  text-[#060606] font-medium">
-                                    <?php echo $produto->categoria ?>
+                                    <?php echo htmlspecialchars($produto->categoria) ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <button onclick="abrirModal('produto', '<?php echo $produto->nome ?>', 'excluir.php?id=<?php echo $produto->id ?>')"
+                                    <button onclick="abrirModal('produto', '<?= addslashes(htmlspecialchars($produto->nome)) ?>', 'excluir.php?id=<?= $produto->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
                                     </button>
