@@ -67,9 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <h2 class="text-[17px] font-semibold text-slate-800 tracking-tight">Editar Categoria</h2>
                     <p class="text-[13px] text-slate-400">Atualize os dados da categoria abaixo.</p>
                 </div>
-                <span class="bg-slate-100 border border-slate-200 text-slate-500 rounded-md px-2 py-0.5 text-[11px] font-mono">
-                    #<?php echo $categoria->id ?? $categoriaId ?>
-                </span>
             </div>
 
             <div class="h-px bg-slate-100"></div>

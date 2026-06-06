@@ -88,10 +88,10 @@
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <a href="excluir.php?id=<?php echo $categoriaAchada->id ?>"
+                                    <button onclick="abrirModal('produto', '<?php echo $categoriaAchada->nome ?>', 'excluir.php?id=<?php echo $categoriaAchada->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
-                                    </a>
+                                    </button>
                                     <a href="editar.php?id=<?php echo $categoriaAchada->id ?>"
                                        class="action-edit text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-pen mr-1 text-[9px]"></i>Editar
@@ -113,10 +113,10 @@
                             </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
-                                    <a href="excluir.php?id=<?php echo $categoria->id ?>"
+                                    <button onclick="abrirModal('categoria', '<?php echo $categoria->nome ?>', 'excluir.php?id=<?php echo $categoria->id ?>')"
                                        class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Excluir
-                                    </a>
+                                    </button>
                                     <a href="editar.php?id=<?php echo $categoria->id ?>"
                                        class="action-edit text-[11px] rounded-md px-2.5 py-1.5 font-medium">
                                         <i class="fa-solid fa-pen mr-1 text-[9px]"></i>Editar
@@ -154,16 +154,16 @@
 
         </div>
     </main>
-    <div id="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.35); z-index:50; align-items:center; justify-content:center;">
-        <div style="background:#fff; border:1px solid #e8ecf0; border-radius:16px; padding:28px; width:100%; max-width:380px; font-family:'Geist',system-ui,sans-serif;">
-            <div style="width:40px;height:40px;background:#fff5f5;border:1px solid #fecaca;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#ef4444;margin-bottom:14px;">
+    <div id="modal-overlay" class="hidden fixed inset-0 bg-slate-900/35 z-50 items-center justify-center">
+        <div class="bg-white border border-slate-200 rounded-2xl p-7 w-full max-w-sm font-sans">
+            <div class="w-10 h-10 bg-red-50 border border-red-200 rounded-xl flex items-center justify-center text-red-500 mb-3.5">
                 <i class="fa-solid fa-trash-can"></i>
             </div>
-            <p id="modal-title" style="font-size:15px;font-weight:600;color:#1e293b;margin:0 0 6px;"></p>
-            <p id="modal-desc" style="font-size:13px;color:#060606;margin:0 0 20px;line-height:1.5;"></p>
-            <div style="display:flex;gap:8px;justify-content:flex-end;">
-                <button onclick="fecharModal()" style="background:#fff;border:1px solid #dde2e8;color:#64748b;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;cursor:pointer;">Cancelar</button>
-                <a id="modal-confirm-link" href="#" style="background:#ef4444;color:#fff;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;text-decoration:none;">Excluir</a>
+            <p id="modal-title" class="text-[15px] font-semibold text-slate-800 mb-1.5"></p>
+            <p id="modal-desc" class="text-[13px] text-slate-500 mb-5 leading-relaxed"></p>
+            <div class="flex gap-2 justify-end">
+                <button onclick="fecharModal()" class="bg-white border border-slate-200 text-slate-500 text-[13px] font-medium px-4 py-2 rounded-lg cursor-pointer">Voltar</button>
+                <a id="modal-confirm-link" href="#" class="bg-red-500 text-white text-[13px] font-medium px-4 py-2 rounded-lg no-underline">Excluir categoria</a>
             </div>
         </div>
     </div>

@@ -136,7 +136,7 @@ $totalVendas = $queryVenda->totalVendas();
                     </div>
                 </a>
                 <a href="../pages_categorias/create.php" class="group relative h-20 w-40 bg-white border border-slate-200 hover:border-emerald-400 rounded-2xl overflow-hidden flex flex-row transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
-                    <div class="absolute top-0 left-0 right-0 h-[2px] bg-emerald-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute top-0 left-0 right-0 h-[2px] bg-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div class="w-1/2 flex-shrink-0 flex items-center justify-center bg-emerald-50">
                         <i class="fa-solid fa-plus text-emerald-500 text-[13px]"></i>
                     </div>
@@ -156,7 +156,7 @@ $totalVendas = $queryVenda->totalVendas();
                     </div>
                 </a>
                 <a href="../pages_clientes/clientes.php" class="group relative h-20 w-40 bg-white border border-slate-200 hover:border-pink-400 rounded-2xl overflow-hidden flex flex-row transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
-                    <div class="absolute top-0 left-0 right-0 h-[2px] text-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute top-0 left-0 right-0 h-[2px] bg-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div class="w-1/2 flex-shrink-0 flex items-center justify-center bg-violet-50">
                         <i class="fa-solid fa-plus text-pink-500 text-[13px]"></i>
                     </div>

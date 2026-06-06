@@ -45,7 +45,6 @@
                 <table class="w-full border-collapse">
                     <thead>
                         <tr>
-                            <th class="px-4 py-3 text-left text-[#060606]">ID</th>
                             <th class="px-4 py-3 text-left text-[#060606]">Cliente</th>
                             <th class="px-4 py-3 text-left text-[#060606]">Total</th>
                             <th class="px-4 py-3 text-left text-[#060606]">Data</th>
@@ -60,11 +59,6 @@
                         <?php endif; ?>
                         <?php foreach($vendas as $venda): ?>
                         <tr class="data-row border-t border-slate-100">
-                            <td class="px-4 py-3.5">
-                                <span class="badge-id mono rounded-md px-2 py-0.5 text-[11px]">
-                                    #<?= $venda->id ?>
-                                </span>
-                            </td>
                             <td class="px-4 py-3.5">
                                 <?php if($venda->cliente): ?>
                                     <span class="badge-cliente rounded-full px-2.5 py-0.5 text-[11px] font-medium text-indigo-700">
@@ -124,16 +118,16 @@
     </main>
 
     <!-- Modal cancelar -->
-    <div id="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.35); z-index:50; align-items:center; justify-content:center;">
-        <div style="background:#fff; border:1px solid #e8ecf0; border-radius:16px; padding:28px; width:100%; max-width:380px; font-family:'Geist',system-ui,sans-serif;">
-            <div style="width:40px;height:40px;background:#fff5f5;border:1px solid #fecaca;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#ef4444;margin-bottom:14px;">
+    <div id="modal-overlay" class="hidden fixed inset-0 bg-slate-900/35 z-50 items-center justify-center">
+        <div class="bg-white border border-slate-200 rounded-2xl p-7 w-full max-w-sm font-sans">
+            <div class="w-10 h-10 bg-red-50 border border-red-200 rounded-xl flex items-center justify-center text-red-500 mb-3.5">
                 <i class="fa-solid fa-trash-can"></i>
             </div>
-            <p id="modal-title" style="font-size:15px;font-weight:600;color:#1e293b;margin:0 0 6px;"></p>
-            <p id="modal-desc" style="font-size:13px;color:#64748b;margin:0 0 20px;line-height:1.5;"></p>
-            <div style="display:flex;gap:8px;justify-content:flex-end;">
-                <button onclick="fecharModal()" style="background:#fff;border:1px solid #dde2e8;color:#64748b;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;cursor:pointer;">Voltar</button>
-                <a id="modal-confirm-link" href="#" style="background:#ef4444;color:#fff;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;text-decoration:none;">Cancelar venda</a>
+            <p id="modal-title" class="text-[15px] font-semibold text-slate-800 mb-1.5"></p>
+            <p id="modal-desc" class="text-[13px] text-slate-500 mb-5 leading-relaxed"></p>
+            <div class="flex gap-2 justify-end">
+                <button onclick="fecharModal()" class="bg-white border border-slate-200 text-slate-500 text-[13px] font-medium px-4 py-2 rounded-lg cursor-pointer">Voltar</button>
+                <a id="modal-confirm-link" href="#" class="bg-red-500 text-white text-[13px] font-medium px-4 py-2 rounded-lg no-underline">Cancelar venda</a>
             </div>
         </div>
     </div>

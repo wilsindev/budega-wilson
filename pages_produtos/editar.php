@@ -74,9 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <h2 class="text-[17px] font-semibold text-slate-800 tracking-tight">Editar Produto</h2>
                     <p class="text-[13px] text-slate-400">Atualize os dados do produto abaixo.</p>
                 </div>
-                <span class="bg-slate-100 border border-slate-200 text-slate-500 rounded-md px-2 py-0.5 text-[11px] font-mono">
-                    #<?php echo $produto->id ?? $produtoId ?>
-                </span>
             </div>
 
             <div class="h-px bg-slate-100"></div>
@@ -96,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <!-- Categoria -->
                 <div class="flex flex-col gap-1.5">
-                    <label for="categoria" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Categoria <span class="text-red-600">*</span></label>
+                    <label for="categoria" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Categoria</label>
                     <select  name="categoria" id="categoria"  required
                         class="select border-none">
                         <?php foreach ($categorias as $categoria): ?>
