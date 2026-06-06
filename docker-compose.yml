@@ -81,14 +81,14 @@ services:
             TZ: America/Sao_Paulo
 
             # Senha do superusuário "root" (administrador do banco)
-            MYSQL_ROOT_PASSWORD: senha_root_123
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
             # Cria automaticamente este banco de dados ao subir pela primeira vez
-            MYSQL_DATABASE: budegadowilso
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
 
             # Cria um usuário "comum" para a aplicação (boa prática: não usar root!)
-            MYSQL_USER: usuario_app
-            MYSQL_PASSWORD: senha_app_123
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
         volumes:
             # Este volume PERSISTE os dados do banco no seu computador.
@@ -146,8 +146,8 @@ services:
             # Diz ao phpMyAdmin onde fica o MySQL (usamos o nome do serviço!)
             # Dentro da rede Docker, os serviços se comunicam pelo nome, não por IP.
             PMA_HOST: mysql
-            PMA_USER: root
-            PMA_PASSWORD: senha_root_123
+            PMA_USER: ${PMA_USER}
+            PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
         ports:
             # Acesse o phpMyAdmin em: http://localhost:8081
