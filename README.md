@@ -2,22 +2,31 @@
 <h2>Requisitos: Docker desktop ou codespace e 
 Docker Compose</h2>
 <ol>
-  <li>Clone o repositório <br>
-    git clone https://github.com/wilsindev/budega-wilson.git
-    cd budega-wilson
+  <li>
+    Clone o repositório<br>
+    <ul>
+      <li>No seu terminal execute: git clone https://github.com/wilsindev/budega-wilson.git</li>
+      <li>E se redirecione para a pasta com: cd budega-wilson</li>
+    </ul>
   </li>
   <li>
     Configure as variáveis de ambiente <br>
-    cp .env.example .env <br>
-    Preencha os valores no .env
+    <ul>
+      <li>No seu terminal execute: cp .env.example .env</li>
+      <li>E logo em seguida preencha os valores no .env</li>
+    </ul>
   </li>
   <li>
     Configure a conexão com o banco <br>
-    cp config/conexao.example.php config/conexao.php (preencha com as mesmas credenciais do env)
+    <ul>
+      <li>Insira suas credenciais em config/conexao.php (preencha com as mesmas credenciais do env)</li>
+    </ul>
   </li>
   <li>
-    Suba os containers <br>
-    docker-compose up -d
+    Suba os containers<br>
+    <ul>
+      <li>Execute em seu terminal: docker-compose up -d</li>
+    </ul>
   </li>
   <li>
     Utilize sua loja!

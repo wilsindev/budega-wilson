@@ -14,3 +14,4 @@
     $query = new ProdutoQuery($pdo);
     $query->removerProduto($produtoId);
     header("Location: produtos.php");
+    exit;

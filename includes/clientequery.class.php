@@ -19,13 +19,6 @@
             //retorna true pra nao dar erro lá no if
             return true;
         } 
-        // catch (PDOException $e) {
-        //     if($e->getCode() == 23000){
-        //         return false; // nome de categoria duplicado
-        //     }
-        //     //se o erro não for o 23000, ou seja, não for um erro de nome de categoria duplicado, deixa o erro estourar normalmente pra ser tratado em outro lugar ou mostrar uma mensagem de erro genérica.
-        //     throw $e; // outro erro qualquer, deixa estourar na tela
-        // }
 
 
         // Read

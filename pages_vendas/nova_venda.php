@@ -14,26 +14,46 @@
     $produtos = $produtoQuery->listarProdutos($totalProdutos, 0);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $clienteId = !empty($_POST['cliente_id']) ? $_POST['cliente_id'] : null;
+        $clienteId = !empty($_POST['cliente_id']) ? intval($_POST['cliente_id']) : null;
         $itens = $_POST['itens'] ?? [];
         $total = 0;
+        $erro = null;
 
-        foreach ($itens as $item) {
-            $total += $item['preco'] * $item['quantidade'];
+        if (empty($itens)) {
+            $erro = "Adicione ao menos um produto para finalizar a venda.";
+        } else {
+            foreach ($itens as $item) {
+                $preco = floatval($item['preco'] ?? 0);
+                $qtd = intval($item['quantidade'] ?? 0);
+                $pid = intval($item['produto_id'] ?? 0);
+
+                if ($pid <= 0 || $qtd <= 0 || $preco <= 0) {
+                    $erro = "Dados de produto inválidos. Verifique os itens adicionados.";
+                    break;
+                }
+                $total += $preco * $qtd;
+            }
         }
 
-        if ($clienteId) {
-            $total = $total * 0.90; // 10% desconto
+        if (!$erro) {
+            if ($clienteId) {
+                $total *= 0.90;
+            }
+
+            $vendaId = $vendaQuery->adicionarVenda($clienteId, $total);
+
+            foreach ($itens as $item) {
+                $vendaQuery->adicionarItemVenda(
+                    $vendaId,
+                    intval($item['produto_id']),
+                    intval($item['quantidade']),
+                    floatval($item['preco'])
+                );
+            }
+
+            header("Location: vendas.php");
+            exit;
         }
-
-        $vendaId = $vendaQuery->adicionarVenda($clienteId, $total);
-
-        foreach ($itens as $item) {
-            $vendaQuery->adicionarItemVenda($vendaId, $item['produto_id'], $item['quantidade'], $item['preco']);
-        }
-
-        header("Location: vendas.php");
-        exit;
     }
 ?>
 <!DOCTYPE html>
@@ -47,6 +67,7 @@
     <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script defer src="../js/select.js"></script>
+    <script defer src="../js/nova_venda.js"></script>
     <link rel="stylesheet" href="../css/index.css">
     <link rel="icon" type="image/x-icon" href="../assets/logobudegafav.png">
     <title>Loja do Wilson - Nova Venda</title>
@@ -136,7 +157,7 @@
                                 <span>Subtotal</span>
                                 <span id="subtotal-val">R$ 0,00</span>
                             </div>
-                            <div class="flex justify-between text-[13px] text-emerald-600" id="linha-desconto" style="display:none!important">
+                            <div class="hidden justify-between text-[13px] text-emerald-600" id="linha-desconto" >
                                 <span>Desconto (10%)</span>
                                 <span id="desconto-val">- R$ 0,00</span>
                             </div>
@@ -162,130 +183,23 @@
     </main>
 
     <!-- Modal quantidade -->
-    <div id="modal-qtd" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.35); z-index:50; align-items:center; justify-content:center;">
-        <div style="background:#fff; border:1px solid #e8ecf0; border-radius:16px; padding:28px; width:100%; max-width:340px;">
+    <div id="modal-qtd" class="hidden fixed inset-0 bg-slate-900/35 z-50 flex items-center justify-center">
+        <div class="bg-white border border-slate-200 rounded-2xl p-7 w-full max-w-sm shadow-xl">
             <p class="text-[15px] font-semibold text-slate-800 mb-1" id="modal-produto-nome"></p>
             <p class="text-[13px] text-slate-400 mb-4" id="modal-produto-preco"></p>
             <div class="flex flex-col gap-1.5 mb-4">
-                <label>Quantidade</label>
+                <label class="text-[13px] font-medium text-slate-600">Quantidade</label>
                 <input type="number" id="input-qtd" min="1" value="1" class="field">
             </div>
             <div class="flex gap-2 justify-end">
-                <button type="button" onclick="fecharModal()" style="background:#fff;border:1px solid #dde2e8;color:#64748b;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;cursor:pointer;">Cancelar</button>
-                <button type="button" onclick="confirmarItem()" style="background:#4f46e5;color:#fff;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;cursor:pointer;">Adicionar</button>
+                <button type="button" onclick="fecharModal()" class="bg-white border border-slate-200 text-slate-500 text-[13px] font-medium px-4 py-2 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                    Cancelar
+                </button>
+                <button type="button" onclick="confirmarItem()" class="bg-indigo-600 text-white text-[13px] font-medium px-4 py-2 rounded-lg cursor-pointer hover:bg-indigo-700 transition-colors">
+                    Adicionar
+                </button>
             </div>
         </div>
     </div>
-
-    <script>
-        let itens = [];
-        let clienteSelecionado = null;
-        let produtoAtual = null;
-
-        function filtrarProdutos(q) {
-            document.querySelectorAll('#lista-produtos .produto-card').forEach(card => {
-                card.style.display = card.dataset.nome.includes(q.toLowerCase()) ? '' : 'none';
-            });
-        }
-
-        function abrirQtd(id, nome, preco) {
-            produtoAtual = { id, nome, preco };
-            document.getElementById('modal-produto-nome').textContent = nome;
-            document.getElementById('modal-produto-preco').textContent = 'R$ ' + preco.toFixed(2).replace('.', ',');
-            document.getElementById('input-qtd').value = 1;
-            document.getElementById('modal-qtd').style.display = 'flex';
-        }
-
-        function fecharModal() {
-            document.getElementById('modal-qtd').style.display = 'none';
-        }
-
-        function confirmarItem() {
-            const qtd = parseInt(document.getElementById('input-qtd').value) || 1;
-            const existente = itens.find(i => i.id === produtoAtual.id);
-            if (existente) {
-                existente.quantidade += qtd;
-            } else {
-                itens.push({ ...produtoAtual, quantidade: qtd });
-            }
-            fecharModal();
-            renderResumo();
-        }
-
-        function removerItem(id) {
-            itens = itens.filter(i => i.id !== id);
-            renderResumo();
-        }
-
-        function renderResumo() {
-            const container = document.getElementById('itens-resumo');
-            container.innerHTML = ''; // limpa tudo incluindo inputs hidden
-
-            if (itens.length === 0) {
-                container.innerHTML = '<p class="text-[12px] text-slate-400 text-center py-4">Nenhum produto adicionado.</p>';
-                document.getElementById('btn-finalizar').disabled = true;
-                atualizarTotal();
-                return;
-        }
-            document.getElementById('btn-finalizar').disabled = false;
-            itens.forEach((item, idx) => {
-                const row = document.createElement('div');
-                row.className = 'item-row';
-                row.innerHTML = `
-                    <div style="flex:1">
-                        <p style="font-size:13px;color:#334155;font-weight:500">${item.nome}</p>
-                        <p style="font-size:11px;color:#94a3b8">${item.quantidade}x R$ ${item.preco.toFixed(2).replace('.',',')}</p>
-                    </div>
-                    <span style="font-size:13px;color:#059669;font-weight:500;white-space:nowrap">R$ ${(item.preco * item.quantidade).toFixed(2).replace('.',',')}</span>
-                    <button type="button" onclick="removerItem(${item.id})" style="color:#ef4444;font-size:12px;background:none;border:none;cursor:pointer;padding:0 4px;">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                `;
-                container.appendChild(row);
-            });
-
-            // inputs hidden para o form
-            container.querySelectorAll('.item-hidden').forEach(e => e.remove());
-            itens.forEach((item, idx) => {
-                ['produto_id','quantidade','preco'].forEach(campo => {
-                    const inp = document.createElement('input');
-                    inp.type = 'hidden';
-                    inp.name = `itens[${idx}][${campo}]`;
-                    inp.value = campo === 'produto_id' ? item.id : campo === 'quantidade' ? item.quantidade : item.preco;
-                    inp.className = 'item-hidden';
-                    container.appendChild(inp);
-                });
-            });
-
-            atualizarTotal();
-        }
-
-        function atualizarTotal() {
-            const subtotal = itens.reduce((s, i) => s + i.preco * i.quantidade, 0);
-            const temDesconto = clienteSelecionado !== null;
-            const desconto = temDesconto ? subtotal * 0.10 : 0;
-            const total = subtotal - desconto;
-
-            document.getElementById('subtotal-val').textContent = 'R$ ' + subtotal.toFixed(2).replace('.',',');
-            document.getElementById('desconto-val').textContent = '- R$ ' + desconto.toFixed(2).replace('.',',');
-            document.getElementById('total-val').textContent = 'R$ ' + total.toFixed(2).replace('.',',');
-            document.getElementById('linha-desconto').style.display = temDesconto ? 'flex' : 'none';
-            document.getElementById('input-subtotal').value = subtotal.toFixed(2);
-            document.getElementById('input-total').value = total.toFixed(2);
-        }
-
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-        $('#cliente_id').on('change', function() {
-            clienteSelecionado = this.value ? true : null;
-            atualizarTotal();
-        });
-
-        document.getElementById('modal-qtd').addEventListener('click', function(e) {
-            if (e.target === this) fecharModal();
-        });
-    });
-    </script>
 </body>
 </html>

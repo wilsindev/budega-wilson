@@ -1,4 +1,4 @@
-<header class="w-full bg-white border-b border-slate-200 z-50 relative" style="box-shadow: 0 1px 3px rgba(15,23,42,0.06);">
+<header class="w-full bg-white border-b border-slate-200 z-50 relative shadow-header">
         <div class="flex items-center justify-between gap-4 px-6 py-3.5 max-w-screen-xl mx-auto">   
     
             <!-- Nav links -->

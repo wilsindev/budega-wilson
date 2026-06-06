@@ -175,3 +175,12 @@ select {
 .item-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
 .badge-desc { background: #dcfce7; border: 1px solid #86efac; color: #166534; font-size: 11px; padding: 2px 8px; border-radius: 20px; }
 label { font-size: 11px; font-weight: 600; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase; }
+.shadow-btn{
+    box-shadow: 0 1px 3px rgba(79,70,229,0.25), 0 1px 0 rgba(255,255,255,0.1) inset;
+}
+.shadow-card {
+    box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 8px 24px rgba(15,23,42,0.05);
+}
+.shadow-header {
+    box-shadow: 0 1px 3px rgba(15,23,42,0.06);
+}

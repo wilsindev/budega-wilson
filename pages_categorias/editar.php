@@ -58,8 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="flex flex-col items-center justify-center w-full min-h-screen py-10">
 
-        <div class="bg-white border border-slate-200 rounded-2xl p-8 w-full max-w-md flex flex-col gap-6"
-             style="box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 8px 24px rgba(15,23,42,0.05);">
+        <div class="bg-white border border-slate-200 rounded-2xl p-8 w-full max-w-md flex flex-col gap-6 shadow-card">
 
             <!-- Header do card -->
             <div class="flex items-start justify-between">
@@ -87,8 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <!-- Submit -->
                 <button type="submit"
-                        class="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-medium text-[13px] rounded-lg px-4 py-2.5 transition-all mt-1"
-                        style="box-shadow: 0 1px 3px rgba(79,70,229,0.25), 0 1px 0 rgba(255,255,255,0.1) inset;">
+                        class="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-medium text-[13px] rounded-lg px-4 py-2.5 transition-all mt-1 shadow-btn">
                     <i class="fa-solid fa-check text-[11px]"></i>
                     Salvar alterações
                 </button>
