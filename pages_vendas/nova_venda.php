@@ -8,8 +8,10 @@
     $vendaQuery = new VendaQuery($pdo);
     $produtoQuery = new ProdutoQuery($pdo);
     $clienteQuery = new ClienteQuery($pdo);
-    $clientes = $clienteQuery->listarClientes(100, 0);
-    $produtos = $produtoQuery->listarProdutos(100, 0);
+    $totalClientes = $clienteQuery->contarClientes();
+    $totalProdutos = $produtoQuery->contarProdutos();
+    $clientes = $clienteQuery->listarClientes($totalClientes, 0);
+    $produtos = $produtoQuery->listarProdutos($totalProdutos, 0);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $clienteId = !empty($_POST['cliente_id']) ? $_POST['cliente_id'] : null;

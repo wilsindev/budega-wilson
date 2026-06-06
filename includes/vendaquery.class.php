@@ -29,6 +29,11 @@
 
 
         // Read
+        public function contarVendas(){
+            $query = $this->pdo->query("SELECT COUNT(*) AS total FROM vendas");
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            return $resultado->total;
+        }
         public function listarProdutosVenda($vendaId){
             $query = $this->pdo->prepare("SELECT iv.*, p.nome AS produto FROM venda_produtos iv JOIN produtos p ON iv.produto_id = p.id WHERE iv.venda_id = :venda_id");
             $query->bindValue(":venda_id", $vendaId);

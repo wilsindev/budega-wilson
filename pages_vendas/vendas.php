@@ -7,6 +7,8 @@
     $offset = ($page - 1) * $limitPerPage;
     $query = new VendaQuery($pdo);
     $vendas = $query->listarVendas($limitPerPage, $offset);
+    $totalVendas = $query->contarVendas();
+    $totalPages = ceil($totalVendas / $limitPerPage);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -109,10 +111,12 @@
                     <span class="page-current flex justify-center items-center w-8 h-8 rounded-lg text-white text-[13px] font-semibold">
                         <?= $page ?>
                     </span>
+                    <?php if ($page < $totalPages): ?>
                     <a href="vendas.php?pagina=<?= $page + 1 ?>"
                        class="page-btn flex justify-center items-center w-8 h-8 rounded-lg text-sm transition-colors">
                         <i class="fa-solid fa-chevron-right text-[10px]"></i>
                     </a>
+                    <?php endif;?>
                 </div>
             </div>
 

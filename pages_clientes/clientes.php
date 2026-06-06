@@ -7,6 +7,8 @@
     $limitPerPage = 10;
     $offset = ($page - 1) * $limitPerPage;
     $query = new ClienteQuery($pdo);
+    $totalClientes = $query->contarClientes();
+    $totalPages = ceil($totalClientes / $limitPerPage);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -141,10 +143,12 @@
                     <span class="page-current flex justify-center items-center w-8 h-8 rounded-lg text-white text-[13px] font-semibold">
                         <?php echo $page ?>
                     </span>
+                    <?php if ($page < $totalPages): ?>
                     <a href="clientes.php?pagina=<?php echo $page + 1 ?>"
                        class="page-btn flex justify-center items-center w-8 h-8 rounded-lg text-sm transition-colors">
                         <i class="fa-solid fa-chevron-right text-[10px]"></i>
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
 

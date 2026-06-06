@@ -7,6 +7,8 @@
     $limitPerPage = 10;
     $offset = ($page - 1) * $limitPerPage;
     $query = new CategoriaQuery($pdo);
+    $totalCategorias = $query->contarCategorias();
+    $totalPages = ceil($totalCategorias / $limitPerPage);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -81,7 +83,7 @@
                             <td class="px-4 py-3.5 text-[13px] text-slate-700 font-normal"><?php echo $categoriaAchada->nome ?></td>
                             <td class="px-4 py-3.5">
                                 <span class="badge-cat rounded-full px-2.5 py-0.5 text-[11px]  font-medium">
-                                    <?php echo $categoriaAchada->categoria ?>
+                                    <?php echo $query->contarProdutosPorCategoria($categoriaAchada->id) ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3.5">
@@ -104,7 +106,11 @@
                             foreach($categorias as $categoria): ?>
                         <tr class="data-row border-t border-slate-100">
                             <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal"><?php echo $categoria->nome ?></td>
-                            <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal"><?php echo $query->contarProdutosPorCategoria($categoria->id) ?></td>
+                            <td class="px-4 py-3.5 text-[13px] text-[#060606] font-normal">
+                                <span class="badge-cat rounded-full px-2.5 py-0.5 text-[11px]  font-medium">
+                                        <?php echo $query->contarProdutosPorCategoria($categoria->id) ?>
+                                </span>
+                            </td>
                             <td class="px-4 py-3.5">
                                 <div class="flex gap-1.5 justify-center">
                                     <a href="excluir.php?id=<?php echo $categoria->id ?>"
@@ -137,10 +143,12 @@
                     <span class="page-current flex justify-center items-center w-8 h-8 rounded-lg text-white text-[13px] font-semibold">
                         <?php echo $page ?>
                     </span>
+                    <?php if ($page < $totalPages): ?>
                     <a href="categorias.php?pagina=<?php echo $page + 1 ?>"
                        class="page-btn flex justify-center items-center w-8 h-8 rounded-lg text-sm transition-colors">
                         <i class="fa-solid fa-chevron-right text-[10px]"></i>
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
 
