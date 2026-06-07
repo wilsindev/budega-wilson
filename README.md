@@ -33,3 +33,6 @@ Docker Compose</h2>
   </li>
 </ol>
 <h2>Inicialmente, este projeto vai ser utilizado no trabalho de programação web, onde devo construir um sistema de administração com php puro. Atualizações irão vir e talvez eu coloque esse sistema para um de laravel. Obrigado por usar!</h2>
+<h6>Nome: Admin</h6>
+<h6>Email: admin@exemplo.com</h6>
+<h6>Senha: admin</h6>

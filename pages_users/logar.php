@@ -24,7 +24,7 @@
         } else {
             $erro = "Email ou senha inválidos.";
         }
-    }
+        }
     }
 
 ?>

@@ -42,7 +42,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `users` VALUES
-(NULL, 'Sara', 'saraloja@gmail.com', '$2y$10$ZBkOp3TLQmRBMUGGMXgeN.ypP2qd4TlhsH4g1tkTWA49zqTOpBjOG', 1);
+(NULL, 'Admin', 'admin@exemplo.com', '$2y$10$m5.Yu9DWy9oWK0n85bQCW.bzZe.0pK2Cad6PvZFgWdigPEi/yhHdm', 1);
 
 CREATE TABLE `vendas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
