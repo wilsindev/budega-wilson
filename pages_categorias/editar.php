@@ -5,6 +5,7 @@ require_once __DIR__ .  '/../config/conexao.php';
 
 $query = new CategoriaQuery($pdo);
 $categoriaId = $_GET['id'] ?? null;
+$erro = "";
 
 if (!$categoriaId) {
     http_response_code(404);
@@ -59,7 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <main class="flex flex-col items-center justify-center w-full min-h-screen py-10">
 
         <div class="bg-white border border-slate-200 rounded-2xl p-8 w-full max-w-md flex flex-col gap-6 shadow-card">
-
+            <?php if($erro): ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Oops!</strong>
+                    <span class="block sm:inline"><?= $erro ?></span>
+                </div>
+            <?php endif; ?>
             <!-- Header do card -->
             <div class="flex items-start justify-between">
                 <div class="flex flex-col gap-1">

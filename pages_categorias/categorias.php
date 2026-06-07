@@ -26,7 +26,7 @@
 <body class="bg-[#f4f6f9] text-slate-700 w-full min-h-screen">
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="flex flex-col items-center w-full min-h-screen py-14 px-4">
-        <div class="card-glow rounded-2xl p-8 w-full max-w-[800px] flex flex-col gap-7">
+        <div class="card-glow rounded-2xl p-8 w-full max-w-[900px] flex flex-col gap-7">
             <?php if (isset($_GET['error']) && $_GET['error'] === '23000'): ?>
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <strong class="font-bold">Oops!</strong>

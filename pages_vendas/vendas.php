@@ -26,7 +26,7 @@
 <body class="bg-[#f4f6f9] text-slate-700 w-full min-h-screen">
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="flex flex-col items-center w-full min-h-screen py-14 px-4">
-        <div class="card-glow rounded-2xl p-8 w-full max-w-[800px] flex flex-col gap-7">
+        <div class="card-glow rounded-2xl p-8 w-full max-w-[900px] flex flex-col gap-7">
 
             <!-- Header -->
             <div class="flex items-center justify-between">
@@ -61,11 +61,11 @@
                         <tr class="data-row border-t border-slate-100">
                             <td class="px-4 py-3.5">
                                 <?php if($venda->cliente): ?>
-                                    <span class="badge-cliente rounded-full px-2.5 py-0.5 text-[11px] font-medium text-indigo-700">
+                                    <span class="badge-cliente rounded-full px-2.5 py-0.5 text-[13px] font-medium text-indigo-700">
                                         <?= htmlspecialchars($venda->cliente) ?>
                                     </span>
                                 <?php else: ?>
-                                    <span class="badge-anonimo rounded-full px-2.5 py-0.5 text-[11px] font-medium">
+                                    <span class="badge-anonimo rounded-full px-2.5 py-0.5 text-[13px] font-medium">
                                         Anônimo
                                     </span>
                                 <?php endif; ?>

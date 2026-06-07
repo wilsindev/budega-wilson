@@ -12,7 +12,7 @@
         $produtoPreco = trim($_POST['preco'] ?? '');
 
         if ($produtoNome !== '' && $produtoCategoria !== '' && $produtoPreco !== ''){
-            if (!is_numeric($produtoPreco) || $produtoPreco < 0) {
+            if (!is_numeric($produtoPreco) || $produtoPreco <= 0) {
                 $erro = "Por favor, insira um preço válido.";
             } 
             // Preg match verifica se o nome contém ao menos uma sequência de 2 letras seguidas.

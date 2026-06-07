@@ -12,6 +12,7 @@
     $totalProdutos = $produtoQuery->contarProdutos();
     $clientes = $clienteQuery->listarClientes($totalClientes, 0);
     $produtos = $produtoQuery->listarProdutos($totalProdutos, 0);
+    $erro = "";
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $clienteId = !empty($_POST['cliente_id']) ? intval($_POST['cliente_id']) : null;
@@ -87,7 +88,12 @@
             </div>
 
             <div class="flex gap-6 items-start flex-wrap lg:flex-nowrap">
-
+                <?php if($erro): ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Oops!</strong>
+                    <span class="block sm:inline"><?= $erro ?></span>
+                </div>
+                <?php endif; ?>
                 <!-- ESQUERDA: Produtos -->
                 <div class="card rounded-2xl p-6 flex flex-col gap-4 w-full lg:w-[55%]">
                     <div class="flex flex-col gap-1">
