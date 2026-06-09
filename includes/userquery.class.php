@@ -53,8 +53,6 @@
             }
         }
 
-        //Update
-        // Atualiza os dados de um produto. Digamos que temos o campo x, y e z. Se o user alterar apenas o x pra N, quando a query for executada no DB, as outras colunas continuaram as mesmas logo que o que o usuario enviou é o mesmo que está no DB. Isso evita a necessidade de criar funções pra alterar cada campo. Obrigado Renan.
         public function atualizarUser($userId, $userName, $userEmail){
         //Sintaxe:                     Atualize em users os valores nome e email                         Onde id no DB seja igual a id inserido.
             $query = $this->pdo->prepare("UPDATE users SET nome = :nome, email = :email WHERE id = :id");
