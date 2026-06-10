@@ -9,6 +9,7 @@
     $query = new ClienteQuery($pdo);
     $totalClientes = $query->contarClientes();
     $totalPages = ceil($totalClientes / $limitPerPage);
+    $sucesso = $_GET['status'] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -31,6 +32,12 @@
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="flex flex-col items-center w-full min-h-screen py-14 px-4">
         <div class="card-glow rounded-2xl p-8 w-full max-w-[900px] flex flex-col gap-7">
+            <?php if ($sucesso): ?>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Prontinho!</strong>
+                    <span class="block sm:inline">Cliente <?= htmlspecialchars($sucesso) ?> com sucesso!</span>
+                </div>
+            <?php endif; ?>
             <!-- Header -->
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">

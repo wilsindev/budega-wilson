@@ -18,7 +18,6 @@
         $clienteId = !empty($_POST['cliente_id']) ? intval($_POST['cliente_id']) : null;
         $itens = $_POST['itens'] ?? [];
         $total = 0;
-        $erro = null;
 
         if (empty($itens)) {
             $erro = "Adicione ao menos um produto para finalizar a venda.";
@@ -52,7 +51,7 @@
                 );
             }
 
-            header("Location: vendas.php");
+            header("Location: vendas.php?status=criada");
             exit;
         }
     }

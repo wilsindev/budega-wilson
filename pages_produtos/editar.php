@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_POST['preco'],
                     $_POST['categoria']
                 );
-                header("Location: produtos.php");
+                header("Location: produtos.php?status=editado");
                 exit;
             } catch (PDOException $e) {
                 if ($e->getCode() == 23000) {

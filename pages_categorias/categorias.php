@@ -9,6 +9,7 @@
     $query = new CategoriaQuery($pdo);
     $totalCategorias = $query->contarCategorias();
     $totalPages = ceil($totalCategorias / $limitPerPage);
+    $sucesso = $_GET['status'] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -31,6 +32,12 @@
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <strong class="font-bold">Oops!</strong>
                     <span class="block sm:inline">Não é possível excluir esta categoria porque ela está associada a um produto. Por favor, remova ou altere os produtos associados antes de excluir esta categoria.</span>
+                </div>
+            <?php endif; ?>
+            <?php if ($sucesso): ?>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Prontinho!</strong>
+                    <span class="block sm:inline">Categoria <?= htmlspecialchars($sucesso) ?> com sucesso!</span>
                 </div>
             <?php endif; ?>
             <!-- Header -->

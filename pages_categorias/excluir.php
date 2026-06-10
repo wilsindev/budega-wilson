@@ -14,7 +14,7 @@
     $query = new CategoriaQuery($pdo);
     $resultado = $query->removerCategoria($categoriaId);
     if ($resultado) {
-        header("Location: categorias.php");
+        header("Location: categorias.php?status=excluida");
     } else {
         header("Location: categorias.php?error=23000");
     }

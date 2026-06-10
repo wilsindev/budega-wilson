@@ -25,7 +25,7 @@
                 try{
                     $query = new ProdutoQuery($pdo);
                     $query->adicionarProduto($produtoNome, $produtoPreco, $produtoCategoria);
-                    header("Location: produtos.php");
+                    header("Location: produtos.php?status=criado");
                     exit;       
                 }
                 catch(PDOException $e){
@@ -102,7 +102,6 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-
                 <!-- Preço -->
                 <div class="flex flex-col gap-1.5">
                     <label for="preco" class="text-[11px] font-semibold text-[#060606] tracking-widest uppercase">Preço <span class="text-red-600">*</span></label>

@@ -13,5 +13,5 @@
     require_once __DIR__ .  '/../config/conexao.php';
     $query = new ProdutoQuery($pdo);
     $query->removerProduto($produtoId);
-    header("Location: produtos.php");
+    header("Location: produtos.php?status=excluido");
     exit;

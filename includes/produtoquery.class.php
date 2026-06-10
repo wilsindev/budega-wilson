@@ -91,13 +91,11 @@
         }
 
         // Delete
-
-        // Deleta um produto, óbvio.
         public function removerProduto($produtoID){
-        //Sintaxe =                       Delete Em  produtos onde id no DB seja igual a id inserido.
             $query = $this->pdo->prepare("DELETE FROM produtos WHERE id = :id");
             $query->bindValue(":id", $produtoID);
             $query->execute();
+            return true;
         }
     }
 ?>

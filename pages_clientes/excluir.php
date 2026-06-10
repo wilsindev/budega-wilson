@@ -15,7 +15,7 @@
     $query = new ClienteQuery($pdo);
     $resultado = $query->removerCliente($clienteId);
     if ($resultado) {
-        header("Location: clientes.php");
+        header("Location: clientes.php?status=excluido");
     } else {
         header("Location: clientes.php?error=23000");
     }

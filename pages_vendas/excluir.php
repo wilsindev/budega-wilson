@@ -6,11 +6,11 @@
     }
     $vendaId = $_GET['id'] ?? null;
     if(!$vendaId){
-        header("Location: vendas.php");
+        header("Location: vendas.php?status=excluida");
         exit;
     }
     require_once __DIR__ .  '/../includes/vendaquery.class.php';
     require_once __DIR__ .  '/../config/conexao.php';
     $query = new VendaQuery($pdo);
     $query->cancelarVenda($vendaId);
-    header("Location: vendas.php");
+    header("Location: vendas.php?status=excluida");

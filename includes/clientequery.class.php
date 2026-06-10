@@ -10,7 +10,6 @@
         // Create
         // Adiciona uma categoria no DB.
         public function adicionarCliente($clienteName, $clienteCPF, $clienteTelefone){
-        // try {
             $query = $this->pdo->prepare("INSERT INTO clientes (nome, cpf, telefone) VALUES (:nome, :cpf, :telefone)");
             $query->bindValue(":nome", $clienteName);
             $query->bindValue(":cpf", $clienteCPF);
@@ -53,7 +52,6 @@
             return $clientesEncontrados;
         }
         //Update
-        // Atualiza os dados de uma categoria. Digamos que temos o campo x, y e z. Se o user alterar apenas o x pra N, quando a query for executada no DB, as outras colunas continuaram as mesmas logo que o que o usuario enviou é o mesmo que está no DB. Isso evita a necessidade de criar funções pra alterar cada campo. Obrigado Renan.
         public function atualizarCliente($clienteID, $clienteName, $clienteCPF, $clienteTelefone){
         //Sintaxe:                     Atualize em clientes os valores nome                         Onde id no DB seja igual a id inserido.
             $query = $this->pdo->prepare("UPDATE clientes SET nome = :nome, cpf = :cpf, telefone = :telefone WHERE id = :id");
@@ -65,13 +63,11 @@
         }
 
         // Delete
-
-        // Deleta um cliente, óbvio.
         public function removerCliente($clienteID){
-        //Sintaxe =                       Delete Em  clientes onde id no DB seja igual a id inserido.
             $query = $this->pdo->prepare("DELETE FROM clientes WHERE id = :id");
             $query->bindValue(":id", $clienteID);
             $query->execute();
+            return true;
         }
     }
 ?>

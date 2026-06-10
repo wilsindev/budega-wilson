@@ -9,6 +9,7 @@
     $vendas = $query->listarVendas($limitPerPage, $offset);
     $totalVendas = $query->contarVendas();
     $totalPages = ceil($totalVendas / $limitPerPage);
+    $sucesso = $_GET['status'] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -27,7 +28,12 @@
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="flex flex-col items-center w-full min-h-screen py-14 px-4">
         <div class="card-glow rounded-2xl p-8 w-full max-w-[900px] flex flex-col gap-7">
-
+            <?php if ($sucesso): ?>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Prontinho!</strong>
+                    <span class="block sm:inline">Venda <?= htmlspecialchars($sucesso) ?> com sucesso!</span>
+                </div>
+            <?php endif; ?>
             <!-- Header -->
             <div class="flex items-center justify-between">
                 <h2 class="text-[17px] font-semibold brand-text leading-tight">Vendas</h2>
@@ -84,6 +90,10 @@
                                         <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Cancelar
                                     </button>
                                     <?php endif; ?>
+                                    <a href="nota.php?id=<?= $venda->id ?>"
+                                    class="action-edit text-[11px] rounded-md px-2.5 py-1.5 font-medium">
+                                        <i class="fa-solid fa-receipt mr-1 text-[9px]"></i>Ver nota
+                                    </a>
                                 </div>
                             </td>
                         </tr>

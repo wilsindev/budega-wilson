@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $categoriaId,
                     $_POST['nome']
                 );
-                header("Location: categorias.php");
+                header("Location: categorias.php?status=editada");
                 exit;
             } 
             catch (PDOException $e) {

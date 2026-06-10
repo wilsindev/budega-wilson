@@ -74,9 +74,15 @@
         // Delete
 
         public function cancelarVenda($vendaId){
-            $query = $this->pdo->prepare("DELETE FROM vendas WHERE id = :id");
-            $query->bindValue(":id", $vendaId);
-            $query->execute();
+            try{
+                $query = $this->pdo->prepare("DELETE FROM vendas WHERE id = :id");
+                $query->bindValue(":id", $vendaId);
+                $query->execute();
+                return true;
+            }
+            catch(PDOException $e){
+                return false;
+            }
         }
     }
 ?>

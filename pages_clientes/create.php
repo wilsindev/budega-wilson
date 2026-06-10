@@ -21,7 +21,7 @@
                 try{
                     $query = new ClienteQuery($pdo);
                     $query->adicionarCliente($clienteNome, $clienteCpf, $clienteTelefone);
-                    header("Location: clientes.php");
+                    header("Location: clientes.php?status=criado");
                     exit;
                 }
                 catch(PDOException $e){

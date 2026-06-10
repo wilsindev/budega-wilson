@@ -13,7 +13,7 @@
                 try{
                     $query = new CategoriaQuery($pdo);
                     $query->adicionarCategoria($categoriaNome); 
-                    header("Location: categorias.php");
+                    header("Location: categorias.php?status=criada");
                     exit;
                 }
                 catch(PDOException $e){

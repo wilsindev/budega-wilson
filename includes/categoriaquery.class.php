@@ -76,23 +76,14 @@
 
         // Delete
 
-        // Deleta uma categoria, óbvio.
         public function removerCategoria($categoriaID){
-        //Sintaxe =                       Delete Em  categorias onde id no DB seja igual a id inserido.
-            try{
+                if($this->contarProdutosPorCategoria($categoriaID) > 0){
+                    return false;
+                }
                 $query = $this->pdo->prepare("DELETE FROM categorias WHERE id = :id");
                 $query->bindValue(":id", $categoriaID);
                 $query->execute();
                 return true;
-            }
-            catch(PDOException $e){
-                if($e->getCode() == 23000){
-                    return false;
-                }
-                else{
-                    throw $e; // outro erro qualquer, deixa estourar na tela
-                }
-            }
         }
     }
 ?>
