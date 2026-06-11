@@ -145,7 +145,7 @@ $totalVendas = $queryVenda->totalVendas();
                         <span class="text-[12px] text-slate-700 font-medium">Categoria</span>
                     </div>
                 </a>
-                <a href="../pages_clientes/clientes.php" class="group relative h-20 w-40 bg-white border border-slate-200 hover:border-violet-400 rounded-2xl overflow-hidden flex flex-row transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                <a href="../pages_clientes/create.php" class="group relative h-20 w-40 bg-white border border-slate-200 hover:border-violet-400 rounded-2xl overflow-hidden flex flex-row transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
                     <div class="absolute top-0 left-0 right-0 h-[2px] bg-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div class="w-1/2 flex-shrink-0 flex items-center justify-center bg-violet-50">
                         <i class="fa-solid fa-plus text-violet-500 text-[13px]"></i>
