@@ -92,10 +92,17 @@
 
         // Delete
         public function removerProduto($produtoID){
-            $query = $this->pdo->prepare("DELETE FROM produtos WHERE id = :id");
-            $query->bindValue(":id", $produtoID);
-            $query->execute();
-            return true;
+            try {
+                $query = $this->pdo->prepare("DELETE FROM produtos WHERE id = :id");
+                $query->bindValue(":id", $produtoID);
+                $query->execute();
+                return true;
+            } catch (PDOException $e) {
+                if ($e->getCode() == 23000) {
+                    return false;
+                }
+                throw $e;
+            }
         }
     }
 ?>

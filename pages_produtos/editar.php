@@ -20,9 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_POST['nome']) && !empty($_POST['categoria']) && !empty($_POST['preco'])) {
         if (!is_numeric($_POST['preco']) || $_POST['preco'] <= 0) {
             $erro = "Por favor, insira um preço válido.";
-        } else if (strlen($_POST['nome']) < 3) {
-            $erro = "O nome do produto deve ter pelo menos 3 caracteres.";
-        } else {
+        }
+        else if (strlen($_POST['nome']) < 3 || strlen($_POST['nome']) > 255) {
+            $erro = "O nome do produto deve ter entre 3 e 255 caracteres.";
+        }
+        else {
             try {
                 $query->atualizarProduto(
                     $produtoId,

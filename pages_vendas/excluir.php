@@ -14,3 +14,4 @@
     $query = new VendaQuery($pdo);
     $query->cancelarVenda($vendaId);
     header("Location: vendas.php?status=excluida");
+    exit;

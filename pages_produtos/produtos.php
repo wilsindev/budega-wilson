@@ -34,6 +34,12 @@
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="flex flex-col items-center w-full min-h-screen py-14 px-4">
         <div class="card-glow rounded-2xl p-8 w-full max-w-[900px] flex flex-col gap-7">
+            <?php if (isset($_GET['error']) && $_GET['error'] === '23000'): ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Oops!</strong>
+                    <span class="block sm:inline">Não é possível excluir este produto porque ele está associado a uma venda. Por favor, remova a venda associada antes de excluir esta categoria.</span>
+                </div>
+            <?php endif; ?>
             <?php if ($sucesso): ?>
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                     <strong class="font-bold">Prontinho!</strong>

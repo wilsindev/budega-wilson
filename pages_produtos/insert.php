@@ -15,11 +15,8 @@
             if (!is_numeric($produtoPreco) || $produtoPreco <= 0) {
                 $erro = "Por favor, insira um preço válido.";
             } 
-            // Preg match verifica se o nome contém ao menos uma sequência de 2 letras seguidas.
-            // Bloqueia nomes puramente numéricos como "8777" ou "A1",
-            // mas permite nomes mistos como "7Up", "Coca-Cola" ou "BalaSeven".
-            else if (strlen($produtoNome) < 3 || strlen($produtoNome) > 255 || !preg_match('/[a-zA-ZÀ-ÿ]{2,}/', $produtoNome)) {
-                $erro = "O nome do produto deve ter entre 3 e 255 caracteres e ao menos uma palavra.";
+            else if (strlen($produtoNome) < 3 || strlen($produtoNome) > 255) {
+                $erro = "O nome do produto deve ter entre 3 e 255 caracteres.";
             }
             else{
                 try{
