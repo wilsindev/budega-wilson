@@ -184,3 +184,32 @@ label { font-size: 11px; font-weight: 600; color: #64748b; letter-spacing: 0.08e
 .shadow-header {
     box-shadow: 0 1px 3px rgba(15,23,42,0.06);
 }
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e8ecf0;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 8px 24px rgba(15,23,42,0.05);
+    animation: fadein 0.4s ease;
+}
+@keyframes fadein { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+.btn-primary {
+    background: #4f46e5;
+    box-shadow: 0 1px 3px rgba(79,70,229,0.25), 0 1px 0 rgba(255,255,255,0.1) inset;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+}
+.btn-primary:hover { background: #4338ca; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
+.btn-primary:active { transform: translateY(0); }
+
+.divider { height: 1px; background: #e8ecf0; }
+
+.feature-icon {
+    width: 36px; height: 36px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: #4f46e5;
+    font-size: 14px;
+    flex-shrink: 0;
+}
