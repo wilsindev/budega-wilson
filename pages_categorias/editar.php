@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             try {
                 $query->atualizarCategoria(
                     $categoriaId,
-                    $_POST['nome']
+                    $_POST['nome22']
                 );
                 header("Location: categorias.php?status=editada");
                 exit;

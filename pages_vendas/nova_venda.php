@@ -18,6 +18,7 @@
         $clienteId = !empty($_POST['cliente_id']) ? intval($_POST['cliente_id']) : null;
         $itens = $_POST['itens'] ?? [];
         $total = 0;
+        $vendaStatus = $_POST['status_pagamento'];
 
         if (empty($itens)) {
             $erro = "Adicione ao menos um produto para finalizar a venda.";
@@ -36,11 +37,8 @@
         }
 
         if (!$erro) {
-            if ($clienteId) {
-                $total *= 0.90;
-            }
 
-            $vendaId = $vendaQuery->adicionarVenda($clienteId, $total);
+            $vendaId = $vendaQuery->adicionarVenda($clienteId, $total, $vendaStatus);
 
             foreach ($itens as $item) {
                 $vendaQuery->adicionarItemVenda(
@@ -141,10 +139,6 @@
                             </select>
 
                         </div>
-                        <p class="text-[11px] text-slate-400 flex items-center gap-1">
-                            <i class="fa-solid fa-tag text-emerald-500"></i>
-                            Cliente cadastrado recebe <strong class="text-emerald-600">10% de desconto</strong>.
-                        </p>
                     </div>
 
                     <!-- Resumo -->
@@ -162,16 +156,27 @@
                                 <span>Subtotal</span>
                                 <span id="subtotal-val">R$ 0,00</span>
                             </div>
-                            <div class="hidden justify-between text-[13px] text-emerald-600" id="linha-desconto" >
-                                <span>Desconto (10%)</span>
-                                <span id="desconto-val">- R$ 0,00</span>
-                            </div>
                             <div class="flex justify-between text-[15px] font-semibold text-slate-800 mt-1">
                                 <span>Total</span>
                                 <span id="total-val">R$ 0,00</span>
                             </div>
                         </div>
+                        <div class="divider"></div>
+                        <div class="flex gap-2">
+                            <input type="radio" name="status_pagamento" value="pendente" id="status-pendente" class="peer/pendente hidden" checked>
+                            <label for="status-pendente"
+                                class="flex items-center gap-1.5 text-[13px] font-medium text-slate-500 border border-slate-200 rounded-lg px-3.5 py-2 cursor-pointer transition-colors peer-checked/pendente:bg-slate-100 peer-checked/pendente:text-slate-700 peer-checked/pendente:border-slate-300">
+                                <i class="fa-solid fa-clock text-[11px]"></i>
+                                Fiado
+                            </label>
 
+                            <input type="radio" name="status_pagamento" value="pago" id="status-pago" class="peer/pago hidden">
+                            <label for="status-pago"
+                                class="flex items-center gap-1.5 text-[13px] font-medium text-slate-500 border border-slate-200 rounded-lg px-3.5 py-2 cursor-pointer transition-colors peer-checked/pago:bg-emerald-50 peer-checked/pago:text-emerald-700 peer-checked/pago:border-emerald-300">
+                                <i class="fa-solid fa-check text-[11px]"></i>
+                                Pago
+                            </label>
+                        </div>
                         <input type="hidden" name="subtotal" id="input-subtotal">
                         <input type="hidden" name="total_final" id="input-total">
 

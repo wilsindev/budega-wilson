@@ -107,8 +107,7 @@
                     </div>
                     <?php if ($venda->cliente): ?>
                     <div class="flex justify-between text-emerald-600">
-                        <span>DESCONTO (10%)</span>
-                        <span>- R$ <?= number_format($subtotal - $venda->total, 2, ',', '.') ?></span>
+                        <span>Cliente: <?= htmlspecialchars(mb_strtoupper($venda->cliente)) ?></span>
                     </div>
                     <?php endif; ?>
                     <div class="flex justify-between text-slate-800 font-medium text-[15px] mt-1">

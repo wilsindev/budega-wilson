@@ -8,13 +8,11 @@
             $this->pdo = $pdo;
         }
         // Create
-        // Adiciona um produto qualquer no DB. 
-        // faltar colocar quantidade. 
-        // fazer sistema de paginação com filtro
-        public function adicionarVenda($clienteId, $vendaTotal){
-            $query = $this->pdo->prepare("INSERT INTO vendas (cliente_id, total) VALUES (:cliente_id, :total)");
+        public function adicionarVenda($clienteId, $vendaTotal, $vendaStatus){
+            $query = $this->pdo->prepare("INSERT INTO vendas (cliente_id, total, status_pagamento) VALUES (:cliente_id, :total, :status)");
             $query->bindValue(":cliente_id", $clienteId);
             $query->bindValue(":total", $vendaTotal);
+            $query->bindValue(":status", $vendaStatus);
             $query->execute();
             return $this->pdo->lastInsertId(); // Retorna o ID da venda recém-criada  
         }
@@ -70,6 +68,14 @@
             $query = $this->pdo->query("SELECT IFNULL(SUM(total), 0) AS total FROM vendas");
             $resultado = $query->fetch(PDO::FETCH_OBJ);
             return $resultado->total;
+        }
+
+        // Update
+        public function atualizarStatusPagamento($vendaId, $novoStatus){
+            $query = $this->pdo->prepare("UPDATE vendas SET status_pagamento = :status WHERE id = :id");
+            $query->bindValue(":status", $novoStatus);
+            $query->bindValue(":id", $vendaId);
+            $query->execute();
         }
         // Delete
 

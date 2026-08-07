@@ -54,6 +54,7 @@
                             <th class="px-4 py-3 text-left text-[#060606]">Cliente</th>
                             <th class="px-4 py-3 text-left text-[#060606]">Total</th>
                             <th class="px-4 py-3 text-left text-[#060606]">Data</th>
+                            <th class="px-4 py-3 text-left text-[#060606]">Status</th>
                             <th class="px-4 py-3 text-center w-28 text-[#060606]">Ação</th>
                         </tr>
                     </thead>
@@ -82,18 +83,44 @@
                             <td class="px-4 py-3.5 text-[13px] text-slate-500 mono whitespace-nowrap">
                                 <?= date('d/m/Y H:i', strtotime($venda->data)) ?>
                             </td>
+                            <td class="px-4 py-3.5 text-[13px] text-slate-500 mono whitespace-nowrap">
+                                <?php if($venda->status_pagamento === 'pago'): ?>
+                                    <span class="rounded-full px-2.5 py-0.5 text-[13px] font-medium text-green-700">
+                                        Paga
+                                    </span>
+                                <?php else: ?>
+                                    <span class="rounded-full px-2.5 py-0.5 text-[13px] font-medium text-red-700">
+                                        Não pago
+                                    </span>
+                                <?php endif; ?>
+                            </td>
                             <td class="px-4 py-3.5">
-                                <div class="flex gap-1.5 justify-center">
+                                <div class="grid grid-cols-3 gap-3 justify-items-center w-[120px] mx-auto">
                                     <?php if($_SESSION['is_admin'] === 1): ?>
                                     <button onclick="abrirModal('venda', '#<?= $venda->id ?>', 'excluir.php?id=<?= $venda->id ?>')"
-                                       class="action-del text-[11px] rounded-md px-2.5 py-1.5 font-medium">
-                                        <i class="fa-solid fa-trash-can mr-1 text-[9px]"></i>Cancelar
+                                    title="Cancelar"
+                                    class="action-del w-8 h-8 rounded-md flex items-center justify-center">
+                                        <i class="fa-solid fa-trash-can text-[12px]"></i>
                                     </button>
+                                    <?php else: ?>
+                                    <div class="w-8 h-8"></div>
                                     <?php endif; ?>
+
                                     <a href="nota.php?id=<?= $venda->id ?>"
-                                    class="action-edit text-[11px] rounded-md px-2.5 py-1.5 font-medium">
-                                        <i class="fa-solid fa-receipt mr-1 text-[9px]"></i>Ver nota
+                                    title="Ver nota"
+                                    class="action-edit w-8 h-8 rounded-md flex items-center justify-center">
+                                        <i class="fa-solid fa-receipt text-[12px]"></i>
                                     </a>
+
+                                    <?php if($venda->status_pagamento !== 'pago'): ?>
+                                    <a href="editar.php?id=<?= $venda->id ?>"
+                                    title="Confirmar pagamento"
+                                    class="bg-green-600 text-white w-8 h-8 rounded-md flex items-center justify-center hover:bg-green-700 transition-colors">
+                                        <i class="fa-solid fa-pen-to-square text-[12px]"></i>
+                                    </a>
+                                    <?php else: ?>
+                                    <div class="w-8 h-8"></div>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>

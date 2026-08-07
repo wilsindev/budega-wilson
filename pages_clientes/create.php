@@ -5,17 +5,11 @@
     $erro = "";
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $clienteNome = trim($_POST['nome'] ?? '');
-        $clienteCpf = trim($_POST['cpf'] ?? '');
-        $clienteTelefone = trim($_POST['telefone'] ?? '');
-        if ($clienteNome !== '' && $clienteCpf !== '' && $clienteTelefone !== ''){
+        $clienteCpf = trim($_POST['cpf'] ?? 'Sem');
+        $clienteTelefone = trim($_POST['telefone'] ?? 'Sem');
+        if ($clienteNome !== ''){
             if(strlen($clienteNome) < 3) {
                 $erro = "O nome do cliente deve ter pelo menos 3 caracteres.";
-            }
-            else if (strlen($clienteCpf) !== 14) {
-                $erro = "Por favor, insira um CPF válido no formato XXX.XXX.XXX-XX.";
-            }
-             else if (strlen($clienteTelefone) < 14) {
-                $erro = "Por favor, insira um telefone válido no formato (XX) XXXXX-XXXX";
             }
             else{
                 try{

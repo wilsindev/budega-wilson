@@ -82,25 +82,19 @@ let itens = [];
 
     function atualizarTotal() {
         const subtotal = itens.reduce((s, i) => s + i.preco * i.quantidade, 0);
-        const temDesconto = clienteSelecionado !== null;
-        const desconto = temDesconto ? subtotal * 0.10 : 0;
-        const total = subtotal - desconto;
 
         document.getElementById('subtotal-val').textContent = 'R$ ' + subtotal.toFixed(2).replace('.',',');
-        document.getElementById('desconto-val').textContent = '- R$ ' + desconto.toFixed(2).replace('.',',');
-        document.getElementById('total-val').textContent = 'R$ ' + total.toFixed(2).replace('.',',');
-        document.getElementById('linha-desconto').classList.toggle('hidden', !temDesconto);
-        document.getElementById('linha-desconto').classList.toggle('flex', temDesconto);
+        document.getElementById('total-val').textContent = 'R$ ' + subtotal.toFixed(2).replace('.',',');
         document.getElementById('input-subtotal').value = subtotal.toFixed(2);
-        document.getElementById('input-total').value = total.toFixed(2);
+        document.getElementById('input-total').value = subtotal.toFixed(2);
     }
 
 
 
 document.addEventListener('DOMContentLoaded', function() {
     $('#cliente_id').on('change', function() {
-        clienteSelecionado = this.value ? true : null;
-        atualizarTotal();
+    clienteSelecionado = this.value ? true : null;
+    atualizarTotal();
     });
 
     document.getElementById('modal-qtd').addEventListener('click', function(e) {
