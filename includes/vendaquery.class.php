@@ -57,6 +57,18 @@
             $query->execute();
             return $query->fetch(PDO::FETCH_OBJ);
         }
+        public function buscarVendaPorNome($nome){
+            $query = $this->pdo->prepare("
+                SELECT vendas.*, clientes.nome AS cliente 
+                FROM vendas 
+                LEFT JOIN clientes ON vendas.cliente_id = clientes.id 
+                WHERE clientes.nome LIKE :nome
+            ");
+            $query->bindValue(":nome", "%$nome%");
+            $query->execute();
+            $vendasEncontradas = $query->fetchAll(PDO::FETCH_OBJ);
+            return $vendasEncontradas;
+        }
         public function getProdutosVenda($vendaId){
             $query = $this->pdo->prepare("SELECT iv.*, p.nome AS produto FROM venda_produtos iv JOIN produtos p ON iv.produto_id = p.id WHERE iv.venda_id = :venda_id");
             $query->bindValue(":venda_id", $vendaId);

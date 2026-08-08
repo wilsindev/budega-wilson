@@ -43,9 +43,21 @@
                     Nova venda
                 </a>
             </div>
-
+            
             <div class="divider"></div>
-
+            <div class="flex justify-between flex-wrap gap-2.5">
+                <form action="" method="get" class="flex gap-2 items-center">
+                    <div class="flex items-center bg-white border border-slate-200 rounded-lg px-3 gap-2 w-52">
+                        <i class="fa-solid fa-magnifying-glass text-slate-400 text-[11px] pointer-events-none"></i>
+                        <input type="text" name="q"
+                            class="bg-transparent text-[#060606] placeholder-slate-400 text-[13px] py-2 outline-none w-full"
+                            placeholder="Pesquisar por nome…">
+                    </div>
+                    <button type="submit" class="btn-secondary flex items-center justify-center w-9 h-9 rounded-lg cursor-pointer">
+                        <i class="fa-solid fa-arrow-right text-[11px]"></i>
+                    </button>
+                </form>
+            </div>
             <!-- Tabela -->
             <div class="table-wrap rounded-xl overflow-hidden">
                 <table class="w-full border-collapse">
@@ -64,7 +76,73 @@
                             <td colspan="5" class="px-4 py-8 text-center text-[13px] text-slate-400">Nenhuma venda registrada.</td>
                         </tr>
                         <?php endif; ?>
-                        <?php foreach($vendas as $venda): ?>
+                        <?php if(!empty($_GET['q'])):
+                            $pesquisa = $_GET['q'];
+                            $vendasAchadas = $query->buscarVendaPorNome($pesquisa);
+                            foreach($vendasAchadas as $vendaAchada): ?>
+                            <tr class="data-row border-t border-slate-100">
+                            <td class="px-4 py-3.5">
+                                <?php if($vendaAchada->cliente): ?>
+                                    <span class="badge-cliente rounded-full px-2.5 py-0.5 text-[13px] font-medium text-indigo-700">
+                                        <?= htmlspecialchars($vendaAchada->cliente) ?>
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge-anonimo rounded-full px-2.5 py-0.5 text-[13px] font-medium">
+                                        Anônimo
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="px-4 py-3.5 text-[13px] price-val font-medium mono">
+                                R$ <?= number_format($vendaAchada->total, 2, ',', '.') ?>
+                            </td>
+                            <td class="px-4 py-3.5 text-[13px] text-slate-500 mono whitespace-nowrap">
+                                <?= date('d/m/Y H:i', strtotime($vendaAchada->data)) ?>
+                            </td>
+                            <td class="px-4 py-3.5 text-[13px] text-slate-500 mono whitespace-nowrap">
+                                <?php if($vendaAchada->status_pagamento === 'pago'): ?>
+                                    <span class="rounded-full px-2.5 py-0.5 text-[13px] font-medium text-green-700">
+                                        Paga
+                                    </span>
+                                <?php else: ?>
+                                    <span class="rounded-full px-2.5 py-0.5 text-[13px] font-medium text-red-700">
+                                        Não pago
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="px-4 py-3.5">
+                                <div class="grid grid-cols-3 gap-3 justify-items-center w-[120px] mx-auto">
+                                    <?php if($_SESSION['is_admin'] === 1): ?>
+                                    <button onclick="abrirModal('venda', '#<?= $vendaAchada->id ?>', 'excluir.php?id=<?= $vendaAchada->id ?>')"
+                                    title="Cancelar"
+                                    class="action-del w-8 h-8 rounded-md flex items-center justify-center">
+                                        <i class="fa-solid fa-trash-can text-[12px]"></i>
+                                    </button>
+                                    <?php else: ?>
+                                    <div class="w-8 h-8"></div>
+                                    <?php endif; ?>
+
+                                    <a href="nota.php?id=<?= $vendaAchada->id ?>"
+                                    title="Ver nota"
+                                    class="action-edit w-8 h-8 rounded-md flex items-center justify-center">
+                                        <i class="fa-solid fa-receipt text-[12px]"></i>
+                                    </a>
+
+                                    <?php if($vendaAchada->status_pagamento !== 'pago'): ?>
+                                    <a href="editar.php?id=<?= $vendaAchada->id ?>"
+                                    title="Confirmar pagamento"
+                                    class="bg-green-600 text-white w-8 h-8 rounded-md flex items-center justify-center hover:bg-green-700 transition-colors">
+                                        <i class="fa-solid fa-pen-to-square text-[12px]"></i>
+                                    </a>
+                                    <?php else: ?>
+                                    <div class="w-8 h-8"></div>
+                                    <?php endif; ?>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                        <?php if(empty($_GET['q'])):
+                            foreach($vendas as $venda): ?>
                         <tr class="data-row border-t border-slate-100">
                             <td class="px-4 py-3.5">
                                 <?php if($venda->cliente): ?>
@@ -124,7 +202,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <?php endforeach; ?>
+                        <?php endforeach; endif; ?>
                     </tbody>
                 </table>
             </div>
